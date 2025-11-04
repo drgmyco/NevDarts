@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CU Next Tuesday Mini Darts Tourney</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#00b4d8">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3498db;
+            --accent-color: #00b4d8;
+            --background-color: #121212;
+            --card-background: #1e1e1e;
+            --text-color: #e0e0e0;
+            --border-color: #333;
+            --highlight-color: #f72585;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Exo 2', sans-serif;
+        }
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: linear-gradient(to bottom right, #121212, #1a1a2e);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 30px 20px;
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1, h2, h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+        }
+        
+        .logo h1 {
+            color: var(--secondary-color);
+            font-size: 3rem;
+            font-family: 'Audiowide', cursive;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+        
+        .logo p {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 18px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #2a2a2a;
+            color: var(--text-color);
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+        }
+        
+        .number-selector {
+            display: grid;
+            grid-template-columns: 80px 1fr 80px;
+            align-items: center;
+            gap: 16px;
+            justify-items: center;
+        }
+        .number-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .number-display {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--highlight-color);
+            background-color: #2a2a2a;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 30px;
+            cursor: pointer;
+            color: var(--accent-color);
+            background-color: #2a2a2a;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            user-select: none;
+            border: 1px solid var(--border-color);
+        }
+        
+        .arrow:hover {
+            transform: scale(1.1);
+            background-color: #333;
+            color: var(--highlight-color);
+        }
+        
+        .arrow:active {
+            transform: scale(0.95);
+        }
+        /* Nav circles match central number size and symmetric placement */
+        .nav-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent-color);
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-circle:hover { transform: scale(1.05); }
+        .nav-circle.back { background: linear-gradient(135deg, #6c757d, #495057); }
+        .nav-circle.go { background: linear-gradient(135deg, var(--highlight-color), #d63384); }
+        .subtitle { font-size: 0.95rem; color: #9aa0a6; text-align: center; margin-top: 8px; }
+        .options.centered { max-width: 650px; margin: 0 auto; }
+        
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .option-card {
+            background-color: #2a2a2a;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .option-card.selected {
+            border-color: var(--accent-color);
+            background-color: rgba(52, 152, 219, 0.2);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .option-card h3 {
+            color: var(--highlight-color);
+            margin-bottom: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        table, th, td {
+            border: 1px solid var(--border-color);
+        }
+        
+        th, td {
+            padding: 14px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #252525;
+        }
+        
+        tr:nth-child(odd) {
+            background-color: #2a2a2a;
+        }
+        
+        tr:hover {
+            background-color: #333;
+        }
+        
+        .back-btn {
+            background-color: #95a5a6;
+            margin-right: 10px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .action-buttons button {
+            width: 48%;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+        
+        /* New styles for score input and buttons */
+        .fixture-table {
+            font-size: 14px;
+        }
+
+        .score-input {
+            width: 50px;
+            padding: 8px 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            background-color: #2a2a2a;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .score-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+        }
+
+        .update-btn, .clear-btn {
+            padding: 8px 12px;
+            font-size: 12px;
+            margin: 2px;
+            border-radius: 6px;
+            min-width: auto;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--highlight-color) 0%, #d63384 100%);
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .update-btn:hover {
+            background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+            transform: translateY(-1px);
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .clear-btn:hover {
+            background: linear-gradient(135deg, #5a6268 0%, #343a40 100%);
+            transform: translateY(-1px);
+        }
+
+        .player-name {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .vs-cell {
+            font-weight: bold;
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        .format-cell {
+            font-size: 12px;
+            color: #aaa;
+            text-align: center;
+        }
+
+        .bye-row {
+            background-color: #1a1a1a;
+            opacity: 0.7;
+        }
+
+        .bye-row td {
+            color: #666;
+            font-style: italic;
+        }
+
+        .bye-row .player-name {
+            color: #777;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            border: 1px solid rgba(23, 162, 184, 0.3);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        /* Small circular Go button */
+        .go-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0;
+            background-color: var(--accent-color);
+        }
+        .action-buttons .go-btn {
+            width: 56px;
+        }
+        #tourney-info {
+            background-color: #1b1b1b;
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <h1>CU Next Tuesday</h1>
+        <p>Mini Darts Tourney</p>
+    </div>
+    
+    <div class="container">
+        <!-- Player Count Screen -->
+        <div class="screen active" id="player-count-screen">
+            <h2>How Many Players?</h2>
+            <div class="form-group">
+                <div class="number-selector">
+                    <div class="nav-circle back" id="open-settings" title="Settings">⚙</div>
+                    <div class="number-column">
+                        <div class="arrow" id="playerCountUp">▲</div>
+                        <div class="number-display" id="playerCountDisplay">8</div>
+                        <div class="arrow" id="playerCountDown">▼</div>
+                    </div>
+                    <div class="nav-circle go" id="player-count-next" title="Go">➜</div>
+                </div>
+                <p class="hint">For mini tournaments (3-16 players)</p>
+            </div>
+        </div>
+        
+        <!-- Score Format Screen -->
+        <div class="screen" id="score-format-screen">
+            <h2>How Many Legs?</h2>
+            <div class="form-group">
+                <label>Best of</label>
+                <div class="number-selector">
+                    <div class="nav-circle back" id="score-format-back" title="Back">➜</div>
+                    <div class="number-column">
+                        <div class="arrow" id="legsCountUp">▲</div>
+                        <div class="number-display" id="legsCountDisplay">5</div>
+                        <div class="arrow" id="legsCountDown">▼</div>
+                    </div>
+                    <div class="nav-circle go" id="score-format-next" title="Go">➜</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Games Per Player Screen -->
+        <div class="screen" id="games-per-player-screen">
+            <h2>How Many Rounds?</h2>
+            <div class="subtitle">How many times to play each player?</div>
+            <div class="form-group">
+                <div class="number-selector">
+                    <div class="nav-circle back" id="games-per-player-back" title="Back">➜</div>
+                    <div class="number-column">
+                        <div class="arrow" id="roundsUp">▲</div>
+                        <div class="number-display" id="roundsDisplay">1</div>
+                        <div class="arrow" id="roundsDown">▼</div>
+                    </div>
+                    <div class="nav-circle go" id="games-per-player-next" title="Go">➜</div>
+                </div>
+            </div>
+            <div class="options centered">
+                <div class="option-card" data-value="1">
+                    <h3>Play Each Player Once</h3>
+                    <p>Single round-robin format</p>
+                </div>
+                <div class="option-card" data-value="2">
+                    <h3>Play Each Player Twice</h3>
+                    <p>Double round-robin format</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tournament Structure Screen -->
+        <div class="screen" id="tournament-structure-screen">
+            <h2>Choose your Tourney!</h2>
+            <div class="subtitle">Pick KO or Group format; groups must have even qualifiers (2, 4, or 8).</div>
+            <div id="structure-options" class="options centered">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            <div class="form-group">
+                <div class="number-selector">
+                    <div class="nav-circle back" id="tournament-structure-back" title="Back">➜</div>
+                    <div style="height:80px"></div>
+                    <div class="nav-circle go" id="tournament-structure-next" title="Go">➜</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Your Tourney Screen -->
+        <div class="screen" id="edit-tourney-screen">
+            <h2>Edit Your Tourney!</h2>
+            <div class="subtitle">Apply fun features to your Mini CU N T Tourney!!</div>
+            <div class="form-group">
+                <label for="tourney-name">Name Tourney</label>
+                <input type="text" id="tourney-name" placeholder="e.g. CU Next Tuesday Open" />
+            </div>
+            <div class="form-group">
+                <label for="entry-fee">Entry Fee £</label>
+                <input type="number" id="entry-fee" placeholder="e.g. 5" min="0" step="1" />
+            </div>
+            <div class="form-group">
+                <label for="prize-pool">Prize Pool £</label>
+                <input type="number" id="prize-pool" placeholder="auto-calculated" disabled />
+            </div>
+            <div class="form-group">
+                <label for="winner-prize">Winner Prize £</label>
+                <input type="number" id="winner-prize" placeholder="e.g. 20" min="0" step="1" />
+            </div>
+            <div class="form-group">
+                <label for="runnerup-prize">RU Prize £</label>
+                <input type="number" id="runnerup-prize" placeholder="e.g. 20" min="0" step="1" />
+            </div>
+            <div class="form-group">
+                <label for="favourite-slot">Tourney Fave? Select player</label>
+                <select id="favourite-slot"></select>
+            </div>
+            <div class="form-group">
+                <label for="darkhorse-slot">Dark Horse? Select player</label>
+                <select id="darkhorse-slot"></select>
+            </div>
+            <div class="form-group">
+                <label>Ready to Start Tourney?</label>
+                <div class="number-selector">
+                    <div class="nav-circle back" id="edit-tourney-back" title="Back">➜</div>
+                    <div style="height:80px"></div>
+                    <div class="nav-circle go" id="edit-tourney-next" title="Go">➜</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Options Screen -->
+        <div class="screen" id="save-options-screen">
+            <h2>Save Your Tourney?</h2>
+            <div class="options centered">
+                <div class="option-card" id="save-now-card">
+                    <h3>Save Now</h3>
+                    <p>Store your tourney config for Quick Start later</p>
+                    <button id="save-now">Save</button>
+                </div>
+                <div class="option-card" id="save-later-card">
+                    <h3>Save Later</h3>
+                    <p>Continue without saving for now</p>
+                    <button id="save-later">Continue</button>
+                </div>
+            </div>
+            <h3 style="margin-top:20px;">Quick Start Favourites</h3>
+            <div id="quick-start-list" class="options"></div>
+            <div class="form-group">
+                <div class="number-selector">
+                    <div class="nav-circle back" id="save-options-back" title="Back">➜</div>
+                    <div style="height:80px"></div>
+                    <div class="nav-circle go" id="create-tourney-now" title="Create Your Tourney Now?">✓</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Player Names Screen -->
+        <div class="screen" id="player-names-screen">
+            <h2>Enter Player Names!</h2>
+            <div id="player-names-container">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            <div class="form-group">
+                <div class="number-selector">
+                    <div class="nav-circle back" id="player-names-back" title="Back">➜</div>
+                    <div style="height:80px"></div>
+                    <div class="nav-circle go" id="player-names-next" title="Go">➜</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fixtures Screen -->
+        <div class="screen" id="fixtures-screen">
+            <h2>Tournament Fixtures</h2>
+            <div id="fixtures-container">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            <div class="form-group">
+                <div class="number-selector">
+                    <div class="nav-circle back" id="fixtures-back" title="Back">➜</div>
+                    <div style="height:80px"></div>
+                    <div class="nav-circle go" id="start-tournament" title="Play Your Fixtures">▶</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tournament data object to store all selections
+        const tournamentData = {
+            playerCount: 8,
+            scoreFormat: 5, // Default: Best of 5
+            gamesPerPlayer: 1, // Default: Play each player once
+            tournamentStructure: null,
+            playerNames: [],
+            fixtures: [],
+            results: [],
+            tournamentName: '',
+            winnerPrize: '',
+            runnerUpPrize: '',
+            favouriteSlot: null,
+            darkHorseSlot: null,
+            favouritePlayer: '',
+            darkHorsePlayer: ''
+        };
+        
+        // Navigation functions
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show the requested screen
+            document.getElementById(screenId).classList.add('active');
+        }
+        
+        // Player Count Screen
+        document.getElementById('player-count-next').addEventListener('click', function() {
+            // Get player count from the display element instead of input field
+            const playerCount = parseInt(document.getElementById('playerCountDisplay').textContent);
+            
+            if (playerCount < 3) {
+                alert('Please enter at least 3 players');
+                return;
+            }
+            
+            if (playerCount > 16) {
+                alert('This app is designed for mini tournaments with up to 16 players');
+                return;
+            }
+            
+            tournamentData.playerCount = playerCount;
+            showScreen('score-format-screen');
+        });
+        
+        // Score Format Screen
+        document.querySelectorAll('#score-format-screen .option-card').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all options
+                document.querySelectorAll('#score-format-screen .option-card').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                
+                // Store the selected value
+                tournamentData.scoreFormat = parseInt(this.getAttribute('data-value'));
+            });
+        });
+        
+        document.getElementById('score-format-back').addEventListener('click', function() {
+            showScreen('player-count-screen');
+        });
+        
+        document.getElementById('score-format-next').addEventListener('click', function() {
+            if (!tournamentData.scoreFormat) {
+                alert('Please select a score format');
+                return;
+            }
+            
+            showScreen('games-per-player-screen');
+        });
+        
+        // Games Per Player Screen
+        document.querySelectorAll('#games-per-player-screen .option-card').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all options
+                document.querySelectorAll('#games-per-player-screen .option-card').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                
+                // Store the selected value
+                tournamentData.gamesPerPlayer = parseInt(this.getAttribute('data-value'));
+            });
+        });
+        
+        document.getElementById('games-per-player-back').addEventListener('click', function() {
+            showScreen('score-format-screen');
+        });
+        
+        document.getElementById('games-per-player-next').addEventListener('click', function() {
+            if (!tournamentData.gamesPerPlayer) {
+                alert('Please select games per player');
+                return;
+            }
+            
+            // Generate tournament structure options
+            generateTournamentStructureOptions();
+            showScreen('tournament-structure-screen');
+        });
+        
+        // Tournament Structure Screen
+        function generateTournamentStructureOptions() {
+            const structureOptions = document.getElementById('structure-options');
+            structureOptions.innerHTML = '';
+            
+            const playerCount = tournamentData.playerCount;
+            
+            // Option 1: Straight Knockout
+            const knockoutOption = document.createElement('div');
+            knockoutOption.className = 'option-card';
+            knockoutOption.setAttribute('data-value', 'knockout');
+            
+            let knockoutDescription = '';
+            if ([4, 8, 16].includes(playerCount)) {
+                knockoutDescription = `Perfect for ${playerCount} players - no byes needed`;
+            } else if (playerCount < 4) {
+                knockoutDescription = 'Need at least 4 players for knockout';
+            } else {
+                const nextPowerOfTwo = Math.pow(2, Math.ceil(Math.log2(playerCount)));
+                const byesNeeded = nextPowerOfTwo - playerCount;
+                knockoutDescription = `${byesNeeded} ${byesNeeded === 1 ? 'bye' : 'byes'} needed in first round`;
+            }
+            
+            knockoutOption.innerHTML = `
+                <h3>Straight KO</h3>
+                <p>Single elimination tournament</p>
+                <p>${knockoutDescription}</p>
+            `;
+            structureOptions.appendChild(knockoutOption);
+            
+            // Option 2: Single group
+            const singleGroupOption = document.createElement('div');
+            singleGroupOption.className = 'option-card';
+            singleGroupOption.setAttribute('data-value', 'single');
+            
+            // Advance count must be one of 2, 4, 8 (even) and <= half of players
+            const allowedAdvances = [8, 4, 2];
+            const halfPlayers = Math.floor(playerCount / 2);
+            const advanceCount = allowedAdvances.find(a => a <= halfPlayers) || 2;
+            
+            singleGroupOption.innerHTML = `
+                <h3>Single Group</h3>
+                <p>All ${playerCount} players in one group</p>
+                <p>Top ${advanceCount} advance to knockout stage (2/4/8 only)</p>
+            `;
+            structureOptions.appendChild(singleGroupOption);
+            
+            // Option 3: Two groups (if enough players)
+            if (playerCount >= 6) {
+                const twoGroupsOption = document.createElement('div');
+                twoGroupsOption.className = 'option-card';
+                twoGroupsOption.setAttribute('data-value', 'two');
+                
+                const group1Size = Math.ceil(playerCount / 2);
+                const group2Size = playerCount - group1Size;
+                
+                twoGroupsOption.innerHTML = `
+                    <h3>Multi Group</h3>
+                    <p>Group A: ${group1Size} players, Group B: ${group2Size} players</p>
+                    <p>Top 2 from each group advance to semifinals</p>
+                `;
+                structureOptions.appendChild(twoGroupsOption);
+            }
+            
+            // Add event listeners to the options
+            document.querySelectorAll('#structure-options .option-card').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from all options
+                    document.querySelectorAll('#structure-options .option-card').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Store the selected value
+                    tournamentData.tournamentStructure = this.getAttribute('data-value');
+                });
+            });
+        }
+        
+        document.getElementById('tournament-structure-back').addEventListener('click', function() {
+            showScreen('games-per-player-screen');
+        });
+        
+        document.getElementById('tournament-structure-next').addEventListener('click', function() {
+            if (!tournamentData.tournamentStructure) {
+                alert('Please select a tournament structure');
+                return;
+            }
+            // Move to Player Names per requested flow
+            generatePlayerNameInputs();
+            showScreen('player-names-screen');
+        });
+
+        // Edit Your Tourney Screen logic
+        function populateEditTourneyFields() {
+            const favSelect = document.getElementById('favourite-slot');
+            const darkSelect = document.getElementById('darkhorse-slot');
+            favSelect.innerHTML = '';
+            darkSelect.innerHTML = '';
+            for (let i = 1; i <= tournamentData.playerCount; i++) {
+                const opt1 = document.createElement('option');
+                opt1.value = i;
+                opt1.textContent = `Player ${i}`;
+                favSelect.appendChild(opt1);
+                const opt2 = document.createElement('option');
+                opt2.value = i;
+                opt2.textContent = `Player ${i}`;
+                darkSelect.appendChild(opt2);
+            }
+            // Restore previous values if any
+            if (tournamentData.favouriteSlot) favSelect.value = tournamentData.favouriteSlot;
+            if (tournamentData.darkHorseSlot) darkSelect.value = tournamentData.darkHorseSlot;
+            document.getElementById('tourney-name').value = tournamentData.tournamentName || '';
+            document.getElementById('entry-fee').value = tournamentData.entryFee || '';
+            // Update prize pool from entry fee and player count
+            const fee = parseFloat(document.getElementById('entry-fee').value) || 0;
+            document.getElementById('prize-pool').value = (tournamentData.playerCount * fee).toFixed(2);
+            document.getElementById('winner-prize').value = tournamentData.winnerPrize || '';
+            document.getElementById('runnerup-prize').value = tournamentData.runnerUpPrize || '';
+        }
+
+        document.getElementById('edit-tourney-back').addEventListener('click', function() {
+            showScreen('tournament-structure-screen');
+        });
+
+        document.getElementById('edit-tourney-next').addEventListener('click', function() {
+            tournamentData.tournamentName = document.getElementById('tourney-name').value.trim();
+            tournamentData.entryFee = parseFloat(document.getElementById('entry-fee').value) || 0;
+            tournamentData.prizePool = tournamentData.playerCount * (tournamentData.entryFee || 0);
+            tournamentData.winnerPrize = parseFloat(document.getElementById('winner-prize').value) || 0;
+            tournamentData.runnerUpPrize = parseFloat(document.getElementById('runnerup-prize').value) || 0;
+            tournamentData.favouriteSlot = parseInt(document.getElementById('favourite-slot').value, 10) || null;
+            tournamentData.darkHorseSlot = parseInt(document.getElementById('darkhorse-slot').value, 10) || null;
+
+            // Validate prize pool equals Winner + RU
+            const totalPrizes = (tournamentData.winnerPrize || 0) + (tournamentData.runnerUpPrize || 0);
+            if (Math.round(totalPrizes * 100) !== Math.round((tournamentData.prizePool || 0) * 100)) {
+                alert('Winner + RU prizes must equal Prize Pool amount');
+                return;
+            }
+
+            populateQuickStart();
+            showScreen('save-options-screen');
+        });
+
+        // Save Options logic
+        function getFavourites() {
+            try {
+                const raw = localStorage.getItem('nevdarts_favourites');
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+        function setFavourites(list) {
+            localStorage.setItem('nevdarts_favourites', JSON.stringify(list));
+        }
+        function saveFavourite() {
+            const list = getFavourites();
+            const fav = {
+                timestamp: Date.now(),
+                title: tournamentData.tournamentName || `Tourney (${tournamentData.playerCount} players)`,
+                playerCount: tournamentData.playerCount,
+                scoreFormat: tournamentData.scoreFormat,
+                gamesPerPlayer: tournamentData.gamesPerPlayer,
+                tournamentStructure: tournamentData.tournamentStructure,
+                favouriteSlot: tournamentData.favouriteSlot,
+                darkHorseSlot: tournamentData.darkHorseSlot,
+                winnerPrize: tournamentData.winnerPrize,
+                runnerUpPrize: tournamentData.runnerUpPrize,
+                entryFee: tournamentData.entryFee || 0,
+                prizePool: tournamentData.prizePool || 0
+            };
+            list.unshift(fav);
+            setFavourites(list.slice(0, 10)); // keep last 10
+            showNotification('Tourney saved to favourites!', 'success');
+            populateQuickStart();
+        }
+        function loadFavourite(index) {
+            const list = getFavourites();
+            const fav = list[index];
+            if (!fav) return;
+            tournamentData.playerCount = fav.playerCount;
+            tournamentData.scoreFormat = fav.scoreFormat;
+            tournamentData.gamesPerPlayer = fav.gamesPerPlayer;
+            tournamentData.tournamentStructure = fav.tournamentStructure;
+            tournamentData.favouriteSlot = fav.favouriteSlot;
+            tournamentData.darkHorseSlot = fav.darkHorseSlot;
+            tournamentData.tournamentName = fav.title;
+            tournamentData.winnerPrize = fav.winnerPrize || '';
+            tournamentData.runnerUpPrize = fav.runnerUpPrize || '';
+            tournamentData.entryFee = fav.entryFee || 0;
+            tournamentData.prizePool = fav.prizePool || (tournamentData.playerCount * (tournamentData.entryFee || 0));
+            showNotification('Favourite loaded!', 'info');
+            // Proceed to names
+            generatePlayerNameInputs();
+            showScreen('player-names-screen');
+        }
+        function populateQuickStart() {
+            const list = getFavourites();
+            const container = document.getElementById('quick-start-list');
+            container.innerHTML = '';
+            if (list.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'option-card';
+                empty.innerHTML = '<p>No favourites saved yet</p>';
+                container.appendChild(empty);
+                return;
+            }
+            list.forEach((fav, idx) => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+                card.innerHTML = `<h3>${fav.title}</h3>
+                    <p>${fav.playerCount} players • ${fav.tournamentStructure} • Best of ${fav.scoreFormat}</p>
+                    <button data-idx="${idx}" class="load-fav">Load</button>`;
+                container.appendChild(card);
+            });
+            container.querySelectorAll('.load-fav').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = parseInt(e.target.getAttribute('data-idx'), 10);
+                    loadFavourite(idx);
+                });
+            });
+        }
+        document.getElementById('save-options-back').addEventListener('click', function() {
+            showScreen('edit-tourney-screen');
+        });
+        document.getElementById('save-now').addEventListener('click', function() {
+            saveFavourite();
+        });
+        document.getElementById('save-later').addEventListener('click', function() {
+            generateFixtures();
+            showScreen('fixtures-screen');
+        });
+        // Removed save-options-next flow; use Create Your Tourney Now button instead
+        
+        // Player Names Screen
+        function generatePlayerNameInputs() {
+            const playerNamesContainer = document.getElementById('player-names-container');
+            playerNamesContainer.innerHTML = '';
+            
+            for (let i = 0; i < tournamentData.playerCount; i++) {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+                
+                const label = document.createElement('label');
+                label.textContent = `Player ${i + 1}`;
+                label.setAttribute('for', `player-${i}`);
+                
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `player-${i}`;
+                input.placeholder = `Enter name for Player ${i + 1}`;
+                input.value = tournamentData.playerNames[i] || '';
+                
+                formGroup.appendChild(label);
+                formGroup.appendChild(input);
+                playerNamesContainer.appendChild(formGroup);
+            }
+        }
+        
+        document.getElementById('player-names-back').addEventListener('click', function() {
+            showScreen('tournament-structure-screen');
+        });
+        
+        document.getElementById('player-names-next').addEventListener('click', function() {
+            // Collect player names
+            tournamentData.playerNames = [];
+            let allNamesEntered = true;
+            
+            for (let i = 0; i < tournamentData.playerCount; i++) {
+                const playerName = document.getElementById(`player-${i}`).value.trim();
+                if (!playerName) {
+                    allNamesEntered = false;
+                    alert(`Please enter a name for Player ${i + 1}`);
+                    break;
+                }
+                tournamentData.playerNames.push(playerName);
+            }
+            
+            if (allNamesEntered) {
+                // Resolve favourite/dark horse names from slots
+                if (tournamentData.favouriteSlot) {
+                    const idx = tournamentData.favouriteSlot - 1;
+                    tournamentData.favouritePlayer = tournamentData.playerNames[idx] || '';
+                }
+                if (tournamentData.darkHorseSlot) {
+                    const idx2 = tournamentData.darkHorseSlot - 1;
+                    tournamentData.darkHorsePlayer = tournamentData.playerNames[idx2] || '';
+                }
+                // Proceed to Edit screen per requested flow
+                populateEditTourneyFields();
+                showScreen('edit-tourney-screen');
+            }
+        });
+        
+        // Fixtures Generation
+        function generateFixtures() {
+            const fixturesContainer = document.getElementById('fixtures-container');
+            fixturesContainer.innerHTML = '';
+            
+            // Reset fixtures
+            tournamentData.fixtures = [];
+            
+            if (tournamentData.tournamentStructure === 'knockout') {
+                generateKnockoutFixtures();
+            } else if (tournamentData.tournamentStructure === 'single') {
+                generateSingleGroupFixtures();
+            } else {
+                generateTwoGroupsFixtures();
+            }
+            
+            // Display fixtures
+            displayFixtures();
+        }
+        
+        function generateKnockoutFixtures() {
+            const players = [...tournamentData.playerNames];
+            const fixtures = [];
+            
+            // Shuffle players for blind draw
+            for (let i = players.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [players[i], players[j]] = [players[j], players[i]];
+            }
+            
+            // Calculate next power of 2
+            const nextPowerOfTwo = Math.pow(2, Math.ceil(Math.log2(players.length)));
+            const byesNeeded = nextPowerOfTwo - players.length;
+            
+            // Create first round fixtures
+            let currentRound = 1;
+            let matchNumber = 1;
+            
+            // Add byes if needed
+            if (byesNeeded > 0) {
+                for (let i = 0; i < byesNeeded; i++) {
+                    fixtures.push({
+                        player1: players[i],
+                        player2: 'BYE',
+                        score1: 1,
+                        score2: 0,
+                        group: 'Round 1',
+                        round: currentRound,
+                        match: matchNumber++,
+                        isBye: true
+                    });
+                }
+                
+                // Create matches for remaining players
+                for (let i = byesNeeded; i < players.length; i += 2) {
+                    if (i + 1 < players.length) {
+                        fixtures.push({
+                            player1: players[i],
+                            player2: players[i + 1],
+                            score1: null,
+                            score2: null,
+                            group: 'Round 1',
+                            round: currentRound,
+                            match: matchNumber++,
+                            isBye: false
+                        });
+                    }
+                }
+            } else {
+                // No byes needed - perfect power of 2
+                for (let i = 0; i < players.length; i += 2) {
+                    fixtures.push({
+                        player1: players[i],
+                        player2: players[i + 1],
+                        score1: null,
+                        score2: null,
+                        group: 'Round 1',
+                        round: currentRound,
+                        match: matchNumber++,
+                        isBye: false
+                    });
+                }
+            }
+            
+            // Add placeholder for subsequent rounds
+            const totalRounds = Math.log2(nextPowerOfTwo);
+            let remainingPlayers = nextPowerOfTwo / 2;
+            
+            for (let round = 2; round <= totalRounds; round++) {
+                currentRound = round;
+                matchNumber = 1;
+                
+                for (let i = 0; i < remainingPlayers / 2; i++) {
+                    fixtures.push({
+                        player1: `Winner R${round-1} M${i*2+1}`,
+                        player2: `Winner R${round-1} M${i*2+2}`,
+                        score1: null,
+                        score2: null,
+                        group: round === totalRounds ? 'Final' : 
+                               round === totalRounds - 1 ? 'Semi Final' : 
+                               round === totalRounds - 2 ? 'Quarter Final' : `Round ${round}`,
+                        round: currentRound,
+                        match: matchNumber++,
+                        isBye: false
+                    });
+                }
+                remainingPlayers /= 2;
+            }
+            
+            tournamentData.fixtures = fixtures;
+        }
+        
+        function generateSingleGroupFixtures() {
+            const basePlayers = [...tournamentData.playerNames];
+            const fixtures = [];
+            
+            // Circle method with fixed first player; insert BYE for odd counts
+            const evenPlayers = basePlayers.length % 2 === 0 ? basePlayers.slice() : [...basePlayers, 'BYE'];
+            const n = evenPlayers.length;
+            const rounds = n - 1;
+            
+            // Working array for rotation (keep index 0 fixed)
+            let arr = evenPlayers.slice();
+            
+            for (let round = 1; round <= rounds; round++) {
+                // Pair first half with reversed second half
+                for (let i = 0; i < n / 2; i++) {
+                    const p1 = arr[i];
+                    const p2 = arr[n - 1 - i];
+                    
+                    // Handle BYE
+                    if (p1 === 'BYE' || p2 === 'BYE') {
+                        const realPlayer = p1 === 'BYE' ? p2 : p1;
+                        fixtures.push({
+                            player1: realPlayer,
+                            player2: p1 === 'BYE' ? '(BYE)' : '(BYE)',
+                            score1: null,
+                            score2: null,
+                            group: 'A',
+                            gameRound: round,
+                            note: `${realPlayer} has a bye`
+                        });
+                    } else {
+                        fixtures.push({
+                            player1: p1,
+                            player2: p2,
+                            score1: null,
+                            score2: null,
+                            group: 'A',
+                            gameRound: round
+                        });
+                    }
+                }
+                
+                // Rotate: move last element to position 1
+                const last = arr.pop();
+                arr.splice(1, 0, last);
+            }
+            
+            // Double round-robin: add reverse fixtures in second half
+            if (tournamentData.gamesPerPlayer === 2) {
+                const reverse = fixtures.map(f => ({
+                    player1: f.player2,
+                    player2: f.player1,
+                    score1: null,
+                    score2: null,
+                    group: 'A',
+                    gameRound: f.gameRound + rounds
+                }));
+                fixtures.push(...reverse);
+            }
+            
+            tournamentData.fixtures = fixtures;
+        }
+        
+        function generateTwoGroupsFixtures() {
+            const players = tournamentData.playerNames;
+            const fixtures = [];
+            
+            // Split players into two groups
+            const group1Size = Math.ceil(players.length / 2);
+            const group1 = players.slice(0, group1Size);
+            const group2 = players.slice(group1Size);
+            
+            // Helper function to generate round-robin for a group
+            function generateGroupFixtures(group, groupName) {
+                // Prepare players (insert BYE if odd)
+                const baseGroup = group.slice();
+                const evenGroup = baseGroup.length % 2 === 0 ? baseGroup.slice() : [...baseGroup, 'BYE'];
+                const n = evenGroup.length;
+                const rounds = n - 1;
+                
+                let arr = evenGroup.slice();
+                
+                for (let round = 1; round <= rounds; round++) {
+                    for (let i = 0; i < n / 2; i++) {
+                        const p1 = arr[i];
+                        const p2 = arr[n - 1 - i];
+                        
+                        if (p1 === 'BYE' || p2 === 'BYE') {
+                            const realPlayer = p1 === 'BYE' ? p2 : p1;
+                            fixtures.push({
+                                player1: realPlayer,
+                                player2: p1 === 'BYE' ? '(BYE)' : '(BYE)',
+                                score1: null,
+                                score2: null,
+                                group: groupName,
+                                gameRound: round,
+                                note: `${realPlayer} has a bye`
+                            });
+                        } else {
+                            fixtures.push({
+                                player1: p1,
+                                player2: p2,
+                                score1: null,
+                                score2: null,
+                                group: groupName,
+                                gameRound: round
+                            });
+                        }
+                    }
+                    // Rotate: move last element to position 1
+                    const last = arr.pop();
+                    arr.splice(1, 0, last);
+                }
+                
+                // Double round-robin for this group
+                if (tournamentData.gamesPerPlayer === 2) {
+                    const groupFixtures = fixtures.filter(f => f.group === groupName);
+                    const reverseFixtures = groupFixtures.map(fixture => ({
+                        player1: fixture.player2,
+                        player2: fixture.player1,
+                        score1: null,
+                        score2: null,
+                        group: groupName,
+                        gameRound: fixture.gameRound + rounds
+                    }));
+                    fixtures.push(...reverseFixtures);
+                }
+            }
+            
+            // Generate fixtures for both groups
+            generateGroupFixtures(group1, 'A');
+            generateGroupFixtures(group2, 'B');
+            
+            tournamentData.fixtures = fixtures;
+        }
+        
+        function displayFixtures() {
+            const fixturesContainer = document.getElementById('fixtures-container');
+            fixturesContainer.innerHTML = '';
+
+            // Tourney info banner
+            const info = document.createElement('div');
+            info.id = 'tourney-info';
+            const name = tournamentData.tournamentName || 'Your Tourney';
+            const fav = tournamentData.favouritePlayer ? `Favourite: ${tournamentData.favouritePlayer}` : '';
+            const dark = tournamentData.darkHorsePlayer ? `Dark Horse: ${tournamentData.darkHorsePlayer}` : '';
+            const prize = tournamentData.winnerPrize || tournamentData.runnerUpPrize ? `Prizes: ${tournamentData.winnerPrize || '-'} | ${tournamentData.runnerUpPrize || '-'}` : '';
+            info.textContent = `${name} ${fav ? ' • ' + fav : ''}${dark ? ' • ' + dark : ''}${prize ? ' • ' + prize : ''}`;
+            fixturesContainer.appendChild(info);
+            
+            if (tournamentData.tournamentStructure === 'knockout') {
+                displayKnockoutFixtures();
+            } else {
+                // Group fixtures by group and game round
+                const groupA = tournamentData.fixtures.filter(fixture => fixture.group === 'A');
+                const groupB = tournamentData.fixtures.filter(fixture => fixture.group === 'B');
+                
+                // Display Group A fixtures organized by game rounds
+                if (groupA.length > 0) {
+                    const groupAHeader = document.createElement('h2');
+                    groupAHeader.textContent = 'Group A';
+                    fixturesContainer.appendChild(groupAHeader);
+                    
+                    // Group A fixtures by game round
+                    const groupARounds = {};
+                    groupA.forEach(fixture => {
+                        const roundKey = fixture.gameRound || 1;
+                        if (!groupARounds[roundKey]) {
+                            groupARounds[roundKey] = [];
+                        }
+                        groupARounds[roundKey].push(fixture);
+                    });
+                    
+                    // Display each game round for Group A
+                    Object.keys(groupARounds).sort((a, b) => a - b).forEach(round => {
+                        const roundHeader = document.createElement('h3');
+                        roundHeader.textContent = `Game Round ${round}`;
+                        fixturesContainer.appendChild(roundHeader);
+                        
+                        const roundTable = createFixtureTable(groupARounds[round]);
+                        fixturesContainer.appendChild(roundTable);
+                    });
+                }
+                
+                // Display Group B fixtures organized by game rounds
+                if (groupB.length > 0) {
+                    const groupBHeader = document.createElement('h2');
+                    groupBHeader.textContent = 'Group B';
+                    fixturesContainer.appendChild(groupBHeader);
+                    
+                    // Group B fixtures by game round
+                    const groupBRounds = {};
+                    groupB.forEach(fixture => {
+                        const roundKey = fixture.gameRound || 1;
+                        if (!groupBRounds[roundKey]) {
+                            groupBRounds[roundKey] = [];
+                        }
+                        groupBRounds[roundKey].push(fixture);
+                    });
+                    
+                    // Display each game round for Group B
+                    Object.keys(groupBRounds).sort((a, b) => a - b).forEach(round => {
+                        const roundHeader = document.createElement('h3');
+                        roundHeader.textContent = `Game Round ${round}`;
+                        fixturesContainer.appendChild(roundHeader);
+                        
+                        const roundTable = createFixtureTable(groupBRounds[round]);
+                        fixturesContainer.appendChild(roundTable);
+                    });
+                }
+            }
+        }
+        
+        function displayKnockoutFixtures() {
+            const fixturesContainer = document.getElementById('fixtures-container');
+            
+            // Group fixtures by round
+            const rounds = {};
+            tournamentData.fixtures.forEach(fixture => {
+                if (!rounds[fixture.group]) {
+                    rounds[fixture.group] = [];
+                }
+                rounds[fixture.group].push(fixture);
+            });
+            
+            // Display each round
+            Object.keys(rounds).forEach(roundName => {
+                const roundHeader = document.createElement('h3');
+                roundHeader.textContent = roundName;
+                fixturesContainer.appendChild(roundHeader);
+                
+                const roundTable = createKnockoutFixtureTable(rounds[roundName]);
+                fixturesContainer.appendChild(roundTable);
+            });
+        }
+        
+        function createKnockoutFixtureTable(fixtures) {
+            const table = document.createElement('table');
+            
+            // Create table header
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            const headers = ['Match', 'Player 1', 'vs', 'Player 2', 'Format'];
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            
+            // Create table body
+            const tbody = document.createElement('tbody');
+            
+            fixtures.forEach((fixture, index) => {
+                const row = document.createElement('tr');
+                
+                const matchCell = document.createElement('td');
+                matchCell.textContent = `Match ${fixture.match}`;
+                
+                const player1Cell = document.createElement('td');
+                player1Cell.textContent = fixture.player1;
+                
+                const vsCell = document.createElement('td');
+                vsCell.textContent = fixture.isBye ? '(BYE)' : 'vs';
+                vsCell.style.textAlign = 'center';
+                
+                const player2Cell = document.createElement('td');
+                player2Cell.textContent = fixture.player2;
+                
+                const formatCell = document.createElement('td');
+                if (tournamentData.scoreFormat === 1) {
+                    formatCell.textContent = 'Single Leg';
+                } else {
+                    formatCell.textContent = `Best of ${tournamentData.scoreFormat}`;
+                }
+                
+                row.appendChild(matchCell);
+                row.appendChild(player1Cell);
+                row.appendChild(vsCell);
+                row.appendChild(player2Cell);
+                row.appendChild(formatCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            table.appendChild(tbody);
+            return table;
+        }
+        
+        function createFixtureTable(fixtures) {
+            const table = document.createElement('table');
+            table.className = 'fixture-table';
+            
+            // Create table header
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            const headers = ['Match', 'Player 1', 'Score', 'vs', 'Score', 'Player 2', 'Format', 'Action'];
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            
+            // Create table body
+            const tbody = document.createElement('tbody');
+            
+            fixtures.forEach((fixture, index) => {
+                const row = document.createElement('tr');
+                row.className = fixture.note ? 'bye-row' : '';
+                
+                const matchCell = document.createElement('td');
+                matchCell.textContent = index + 1;
+                
+                const player1Cell = document.createElement('td');
+                player1Cell.textContent = fixture.player1;
+                player1Cell.className = 'player-name';
+                
+                // Score input for Player 1
+                const score1Cell = document.createElement('td');
+                if (!fixture.note) {
+                    const score1Input = document.createElement('input');
+                    score1Input.type = 'number';
+                    score1Input.min = '0';
+                    score1Input.className = 'score-input';
+                    score1Input.value = fixture.score1 !== null ? fixture.score1 : '';
+                    score1Input.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture);
+                    score1Input.dataset.player = '1';
+                    score1Cell.appendChild(score1Input);
+                } else {
+                    score1Cell.textContent = '-';
+                    score1Cell.style.textAlign = 'center';
+                }
+                
+                const vsCell = document.createElement('td');
+                vsCell.textContent = fixture.note ? '(Bye)' : 'vs';
+                vsCell.style.textAlign = 'center';
+                vsCell.className = 'vs-cell';
+                
+                // Score input for Player 2
+                const score2Cell = document.createElement('td');
+                if (!fixture.note) {
+                    const score2Input = document.createElement('input');
+                    score2Input.type = 'number';
+                    score2Input.min = '0';
+                    score2Input.className = 'score-input';
+                    score2Input.value = fixture.score2 !== null ? fixture.score2 : '';
+                    score2Input.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture);
+                    score2Input.dataset.player = '2';
+                    score2Cell.appendChild(score2Input);
+                } else {
+                    score2Cell.textContent = '-';
+                    score2Cell.style.textAlign = 'center';
+                }
+                
+                const player2Cell = document.createElement('td');
+                player2Cell.textContent = fixture.player2;
+                player2Cell.className = 'player-name';
+                
+                const formatCell = document.createElement('td');
+                if (tournamentData.scoreFormat === 1) {
+                    formatCell.textContent = 'Single';
+                } else {
+                    formatCell.textContent = `Best of ${tournamentData.scoreFormat}`;
+                }
+                formatCell.className = 'format-cell';
+                
+                // Action buttons
+                const actionCell = document.createElement('td');
+                if (!fixture.note) {
+                    const updateBtn = document.createElement('button');
+                    updateBtn.textContent = 'Update';
+                    updateBtn.className = 'update-btn';
+                    updateBtn.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture);
+                    updateBtn.addEventListener('click', updateFixtureResult);
+                    
+                    const clearBtn = document.createElement('button');
+                    clearBtn.textContent = 'Clear';
+                    clearBtn.className = 'clear-btn';
+                    clearBtn.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture);
+                    clearBtn.addEventListener('click', clearFixtureResult);
+                    
+                    actionCell.appendChild(updateBtn);
+                    actionCell.appendChild(document.createElement('br'));
+                    actionCell.appendChild(clearBtn);
+                } else {
+                    actionCell.textContent = 'Bye';
+                    actionCell.style.fontStyle = 'italic';
+                    actionCell.style.color = '#666';
+                }
+                
+                row.appendChild(matchCell);
+                row.appendChild(player1Cell);
+                row.appendChild(score1Cell);
+                row.appendChild(vsCell);
+                row.appendChild(score2Cell);
+                row.appendChild(player2Cell);
+                row.appendChild(formatCell);
+                row.appendChild(actionCell);
+                
+                tbody.appendChild(row);
+            });
+            
+            table.appendChild(tbody);
+            return table;
+        }
+        
+        // Function to update fixture result
+        function updateFixtureResult(event) {
+            const fixtureIndex = parseInt(event.target.dataset.fixtureIndex);
+            const fixture = tournamentData.fixtures[fixtureIndex];
+            
+            const row = event.target.closest('tr');
+            const score1Input = row.querySelector('input[data-player="1"]');
+            const score2Input = row.querySelector('input[data-player="2"]');
+            
+            const score1 = parseInt(score1Input.value) || 0;
+            const score2 = parseInt(score2Input.value) || 0;
+            
+            // Update the fixture data
+            fixture.score1 = score1;
+            fixture.score2 = score2;
+            
+            // Refresh the display
+            displayFixtures();
+            
+            // Show success message
+            showNotification('Result updated successfully!', 'success');
+            
+            // Update standings if in group stage
+            if (tournamentData.tournamentStructure !== 'knockout') {
+                updateStandings();
+            }
+        }
+        
+        // Function to clear fixture result
+        function clearFixtureResult(event) {
+            const fixtureIndex = parseInt(event.target.dataset.fixtureIndex);
+            const fixture = tournamentData.fixtures[fixtureIndex];
+            
+            // Clear the scores
+            fixture.score1 = null;
+            fixture.score2 = null;
+            
+            // Refresh the display
+            displayFixtures();
+            
+            // Show notification
+            showNotification('Result cleared', 'info');
+            
+            // Update standings if in group stage
+            if (tournamentData.tournamentStructure !== 'knockout') {
+                updateStandings();
+            }
+        }
+        
+        // Function to show notifications
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 5px;
+                color: white;
+                font-weight: bold;
+                z-index: 1000;
+                transition: opacity 0.3s ease;
+            `;
+            
+            if (type === 'success') {
+                notification.style.backgroundColor = '#28a745';
+            } else if (type === 'info') {
+                notification.style.backgroundColor = '#17a2b8';
+            } else if (type === 'error') {
+                notification.style.backgroundColor = '#dc3545';
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        document.getElementById('fixtures-back').addEventListener('click', function() {
+            showScreen('player-names-screen');
+        });
+        
+        document.getElementById('start-tournament').addEventListener('click', function() {
+            alert('Play Your Fixtures – tracking and standings coming up next.');
+        });
+        
+        // Number Selector Event Listeners
+        document.getElementById('playerCountUp').addEventListener('click', function() {
+            const currentValue = parseInt(document.getElementById('playerCountDisplay').textContent);
+            if (currentValue < 16) {
+                document.getElementById('playerCountDisplay').textContent = currentValue + 1;
+                tournamentData.playerCount = currentValue + 1;
+            }
+        });
+        
+        document.getElementById('playerCountDown').addEventListener('click', function() {
+            const currentValue = parseInt(document.getElementById('playerCountDisplay').textContent);
+            if (currentValue > 3) {
+                document.getElementById('playerCountDisplay').textContent = currentValue - 1;
+                tournamentData.playerCount = currentValue - 1;
+            }
+        });
+        
+        document.getElementById('legsCountUp').addEventListener('click', function() {
+            const currentValue = parseInt(document.getElementById('legsCountDisplay').textContent);
+            if (currentValue < 15) {
+                document.getElementById('legsCountDisplay').textContent = currentValue + 2;
+                tournamentData.scoreFormat = currentValue + 2;
+            }
+        });
+        
+        document.getElementById('legsCountDown').addEventListener('click', function() {
+            const currentValue = parseInt(document.getElementById('legsCountDisplay').textContent);
+            if (currentValue > 1) {
+                document.getElementById('legsCountDisplay').textContent = currentValue - 2;
+                tournamentData.scoreFormat = currentValue - 2;
+            }
+        });
+        // Rounds toggle: allow 1 or 2 rounds only
+        document.getElementById('roundsUp').addEventListener('click', function() {
+            const currentValue = parseInt(document.getElementById('roundsDisplay').textContent);
+            const next = currentValue >= 2 ? 2 : currentValue + 1;
+            document.getElementById('roundsDisplay').textContent = next;
+            tournamentData.gamesPerPlayer = next;
+        });
+        document.getElementById('roundsDown').addEventListener('click', function() {
+            const currentValue = parseInt(document.getElementById('roundsDisplay').textContent);
+            const next = currentValue <= 1 ? 1 : currentValue - 1;
+            document.getElementById('roundsDisplay').textContent = next;
+            tournamentData.gamesPerPlayer = next;
+        });
+
+        // Settings placeholder
+        document.getElementById('open-settings').addEventListener('click', function() {
+            alert('Settings coming soon: Save Settings, Player Profiles, Formats, Defaults');
+        });
+
+        // Keep prize pool synced with player count or entry fee changes
+        function updatePrizePoolDisplay() {
+            const fee = parseFloat(document.getElementById('entry-fee').value) || 0;
+            const pool = (tournamentData.playerCount * fee) || 0;
+            const prizeInput = document.getElementById('prize-pool');
+            if (prizeInput) prizeInput.value = pool.toFixed(2);
+        }
+        const entryFeeInput = document.getElementById('entry-fee');
+        if (entryFeeInput) {
+            entryFeeInput.addEventListener('input', updatePrizePoolDisplay);
+        }
+        // Adjust existing player count increment/decrement to also update prize pool
+        const _origPCUp = document.getElementById('playerCountUp').onclick;
+        document.getElementById('playerCountUp').addEventListener('click', function() {
+            updatePrizePoolDisplay();
+        });
+        document.getElementById('playerCountDown').addEventListener('click', function() {
+            updatePrizePoolDisplay();
+        });
+
+        // Save Options: wire create-tourney-now and adjust save-later
+        document.getElementById('create-tourney-now').addEventListener('click', function() {
+            generateFixtures();
+            showScreen('fixtures-screen');
+        });
+        const saveLaterBtn = document.getElementById('save-later');
+        if (saveLaterBtn) {
+            saveLaterBtn.addEventListener('click', function() {
+                generateFixtures();
+                showScreen('fixtures-screen');
+            });
+        }
+        // Remove any stale listeners referencing non-existent save-options-next
+        
+        // Initialize with default values
+        document.getElementById('playerCountDisplay').textContent = tournamentData.playerCount;
+        document.getElementById('legsCountDisplay').textContent = tournamentData.scoreFormat;
+        const roundsDisp = document.getElementById('roundsDisplay');
+        if (roundsDisp) roundsDisp.textContent = tournamentData.gamesPerPlayer;
+
+        // Register service worker for installable PWA and offline caching
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(reg) {
+                    console.log('ServiceWorker registered', reg.scope);
+                }).catch(function(err) {
+                    console.log('ServiceWorker registration failed', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
