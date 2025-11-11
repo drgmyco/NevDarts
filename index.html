@@ -614,6 +614,24 @@
                     </div>
                     <p class="subtitle" style="margin-top:8px;">Run the command in PowerShell, then open <code>http://127.0.0.1:8000/</code>.</p>
                 </div>
+
+                <!-- Quick Start Tip (hidden by default; appears only on non-local origins) -->
+                <div class="modal-backdrop" id="qs-tip-backdrop" style="display:none;">
+                    <div class="modal" id="qs-tip-modal" style="max-width:520px;">
+                        <h3>Quick Start</h3>
+                        <p style="margin:8px 0 12px;">Running locally? Start the preview:</p>
+                        <ul style="margin:0 0 12px 18px;">
+                            <li>Double‑click <code>start_server.bat</code> in the project folder.</li>
+                            <li>Open <code>http://127.0.0.1:8000/</code> in your browser.</li>
+                        </ul>
+                        <div class="modal-actions" style="display:flex; align-items:center; gap:12px; justify-content:flex-end;">
+                            <label style="display:flex; align-items:center; gap:6px; font-size:0.95em;">
+                                <input type="checkbox" id="qs-dont-show"> Don’t show again
+                            </label>
+                            <button id="qs-dismiss" class="go-btn" style="width:auto;">Got it</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <div class="footer-4">
@@ -782,10 +800,10 @@
             </div>
             <div class="form-group">
                 <div class="footer-4">
-                    <div class="nav-circle nav-shortcut" id="fixtures-results" title="Results">📊<span class="nav-label">Results</span></div>
+                    <div class="nav-circle nav-shortcut" id="fixtures-save" title="Save Results">💾<span class="nav-label">Save Results</span></div>
                     <div class="nav-circle nav-primary" id="fixtures-back" title="Back">⬅<span class="nav-label">Back</span></div>
-                    <div class="nav-circle nav-primary" id="start-tournament" title="Play Your Fixtures">▶<span class="nav-label">Play</span></div>
-                    <div class="nav-circle nav-shortcut" id="fixtures-standings" title="Standings">📈<span class="nav-label">Standings</span></div>
+                    <div class="nav-circle nav-primary" id="fixtures-finish" title="Finish and Restart">↻<span class="nav-label">Finish</span></div>
+                    <div class="nav-circle nav-shortcut" id="fixtures-replay" title="Replay Tourney">🔁<span class="nav-label">Replay Tourney</span></div>
                 </div>
             </div>
         </div>
@@ -795,6 +813,7 @@
             <h2>Settings</h2>
             <div class="subtitle title-match">Formats, defaults, profiles, saved presets</div>
             <div class="options centered">
+                <div class="option-card" id="settings-library"><h3>Saved Results Library</h3><p>View and manage saved tourneys</p></div>
                 <div class="option-card" id="settings-presets"><h3>Saved Presets</h3><p>Quick-start tourneys and formats</p></div>
                 <div class="option-card" id="settings-defaults"><h3>Defaults</h3><p>Player count, legs, rounds</p></div>
                 <div class="option-card" id="settings-profiles"><h3>Profiles</h3><p>Player aliases and notes</p></div>
@@ -808,6 +827,14 @@
                     <div class="footer-icon" title="Saved">💾</div>
                 </div>
             </div>
+        </div>
+
+        <!-- Saved Results Library Screen -->
+        <div class="screen" id="settings-library-screen" style="display:none;">
+            <h2>Saved Results Library</h2>
+            <div class="subtitle title-match">Previous tourneys and summaries</div>
+            <div id="saved-results-container" class="options centered"></div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="settings-library-back" title="Back">➜</div></div></div>
         </div>
 
         <!-- Settings Subpages -->
@@ -1354,11 +1381,16 @@
             showScreen('player-names-screen');
         });
 
-        // Fixtures footer icons wiring
-        addClick('fixtures-results', () => showScreen('results-screen'));
-        addClick('fixtures-standings', () => showScreen('standings-screen'));
+        // Fixtures footer icons wiring (updated)
+        addClick('fixtures-save', () => saveCurrentResultsToLibrary());
+        addClick('fixtures-replay', () => promptReplayTournament());
         addClick('results-back', () => goBack());
         addClick('standings-back', () => goBack());
+        addClick('fixtures-finish', () => { showScreen('basics-screen'); });
+
+        // Settings: open saved results library
+        addClick('settings-library', () => { renderSavedResultsLibrary(); showScreen('settings-library-screen'); });
+        addClick('settings-library-back', () => showScreen('settings-screen'));
 
         // Edit Your Tourney Screen logic
         function populateEditTourneyFields() {
@@ -2100,22 +2132,176 @@
                 rounds[fixture.group].push(fixture);
             });
             
-            // Display each round
+            // Display each round (include bye fixtures, greyed out)
             Object.keys(rounds).forEach(roundName => {
                 const roundHeader = document.createElement('h3');
                 roundHeader.textContent = roundName;
                 fixturesContainer.appendChild(roundHeader);
                 
-                const roundTable = createKnockoutFixtureTable(rounds[roundName].filter(f => !f.isBye));
+                const roundTable = createKnockoutFixtureTable(rounds[roundName]);
                 fixturesContainer.appendChild(roundTable);
 
                 const confirmBtn = document.createElement('button');
-                confirmBtn.textContent = 'Confirm Results and Draw Next Round?';
                 confirmBtn.className = 'update-btn';
-                confirmBtn.addEventListener('click', () => advanceKnockoutRound(roundName));
+                if (roundName === 'Final') {
+                    confirmBtn.textContent = 'Confirm Final and View Tourney Summary';
+                    confirmBtn.addEventListener('click', () => openFinalSummaryModal());
+                } else {
+                    confirmBtn.textContent = 'Confirm Results and Draw Next Round?';
+                    confirmBtn.addEventListener('click', () => advanceKnockoutRound(roundName));
+                }
                 fixturesContainer.appendChild(confirmBtn);
             });
         }
+
+        // Compute tourney stats for summary and saving
+        function computeTourneyStats() {
+            const stats = {};
+            const ensure = (p) => { if (!p) return; if (!stats[p]) stats[p] = { won:0, lost:0, diff:0 }; };
+            (tournamentData.fixtures||[]).forEach(f => {
+                if (typeof f.score1 === 'number' && typeof f.score2 === 'number') {
+                    ensure(f.player1); ensure(f.player2);
+                    stats[f.player1].won += f.score1; stats[f.player1].lost += f.score2; stats[f.player1].diff += (f.score1 - f.score2);
+                    stats[f.player2].won += f.score2; stats[f.player2].lost += f.score1; stats[f.player2].diff += (f.score2 - f.score1);
+                } else if (f.isBye) {
+                    ensure(f.player1);
+                }
+            });
+            const mostWon = Object.keys(stats).sort((a,b)=>stats[b].won - stats[a].won)[0] || '';
+            const mostLost = Object.keys(stats).sort((a,b)=>stats[b].lost - stats[a].lost)[0] || '';
+            const mostDiff = Object.keys(stats).sort((a,b)=>stats[b].diff - stats[a].diff)[0] || '';
+            // Final winner/runner-up
+            const finalFix = (tournamentData.fixtures||[]).find(f=>f.group==='Final');
+            let winner=''; let runnerUp='';
+            if (finalFix && typeof finalFix.score1==='number' && typeof finalFix.score2==='number') {
+                winner = finalFix.score1>finalFix.score2 ? finalFix.player1 : finalFix.player2;
+                runnerUp = finalFix.score1>finalFix.score2 ? finalFix.player2 : finalFix.player1;
+            }
+            // Favourite/Dark horse summaries
+            const stageFor = (player) => {
+                if (!player) return '';
+                const rounds = ['Round 1','Round 2','Round 3','Quarter Final','Semi Final','Final'];
+                const involved = (tournamentData.fixtures||[]).filter(f=>f.player1===player||f.player2===player);
+                if (involved.length===0) return 'Did not participate';
+                const final = (tournamentData.fixtures||[]).find(f=>f.group==='Final');
+                if (final && (final.player1===player||final.player2===player) && typeof final.score1==='number' && typeof final.score2==='number') {
+                    if ((final.player1===player && final.score1>final.score2) || (final.player2===player && final.score2>final.score1)) return 'Champion';
+                    return 'Runner-up';
+                }
+                // Find last round they played
+                let lastRound = '';
+                involved.forEach(f=>{ if (typeof f.round==='number') { lastRound = f.group; } });
+                return lastRound ? `Reached ${lastRound}` : 'Played group stage';
+            };
+            return { stats, mostWon, mostLost, mostDiff, winner, runnerUp, favouriteResult: stageFor(tournamentData.favouritePlayer), darkHorseResult: stageFor(tournamentData.darkHorsePlayer) };
+        }
+
+        // Summary modal for Final
+        function openFinalSummaryModal() {
+            const finalFix = (tournamentData.fixtures||[]).find(f=>f.group==='Final');
+            if (!finalFix) { showNotification('No Final found.', 'error'); return; }
+            if (typeof finalFix.score1 !== 'number' || typeof finalFix.score2 !== 'number') { showNotification('Please enter Final result first.', 'error'); return; }
+            const summary = computeTourneyStats();
+            const winner = summary.winner; const runnerUp = summary.runnerUp;
+            const html = `
+                <div class='option-card'>
+                    <h3>Congratulations ${winner}!</h3>
+                    <p>Commiserations ${runnerUp} — unlucky this time.</p>
+                    <h4>Tourney Summary</h4>
+                    <ul>
+                        <li>The pre-Tourney Favourite was ${tournamentData.favouritePlayer||'-'} who was ${summary.favouriteResult||'-'}</li>
+                        <li>The pre-Tourney DARK HORSE was ${tournamentData.darkHorsePlayer||'-'} who was ${summary.darkHorseResult||'-'}</li>
+                        <li>Stats – Player won most legs: ${summary.mostWon||'-'}</li>
+                        <li>Stats – Player lost most legs: ${summary.mostLost||'-'}</li>
+                        <li>Stats – Player most legs difference: ${summary.mostDiff||'-'}</li>
+                    </ul>
+                </div>
+            `;
+            openNamesModal('Tourney Summary', html, null);
+        }
+
+        // Save results to localStorage library
+        function renderSavedResultsLibrary() {
+            const container = document.getElementById('saved-results-container');
+            if (!container) return;
+            const raw = localStorage.getItem('nevdarts:results:library');
+            const list = raw ? JSON.parse(raw) : [];
+            if (list.length===0) { container.innerHTML = '<div class="option-card"><p>No saved results yet.</p></div>'; return; }
+            container.innerHTML = list.map((item, idx) => {
+                const when = new Date(item.timestamp).toLocaleString();
+                const title = item.tournamentName || `Tourney #${idx+1}`;
+                return `<div class='option-card'><h3>${title}</h3><p>${when} – ${item.structure} – ${item.players.length} players</p><button class='update-btn' data-idx='${idx}'>View Summary</button></div>`;
+            }).join('');
+            container.querySelectorAll('button.update-btn').forEach(btn => {
+                btn.addEventListener('click', (e)=>{
+                    const idx = parseInt(e.target.dataset.idx,10);
+                    const raw2 = localStorage.getItem('nevdarts:results:library');
+                    const list2 = raw2 ? JSON.parse(raw2) : [];
+                    const item = list2[idx];
+                    if (!item) return;
+                    const html = `
+                        <div class='option-card'>
+                            <h3>${item.tournamentName||'Saved Tourney'}</h3>
+                            <p>${new Date(item.timestamp).toLocaleString()} – ${item.structure} – ${item.players.length} players</p>
+                            <ul>
+                                <li>Favourite: ${item.favourite} – ${item.favouriteResult}</li>
+                                <li>Dark Horse: ${item.darkHorse} – ${item.darkHorseResult}</li>
+                                <li>Most legs won: ${item.mostWon}</li>
+                                <li>Most legs lost: ${item.mostLost}</li>
+                                <li>Most leg difference: ${item.mostDiff}</li>
+                            </ul>
+                        </div>`;
+                    openNamesModal('Saved Tourney Summary', html, null);
+                });
+            });
+        }
+
+        function saveCurrentResultsToLibrary() {
+            const summary = computeTourneyStats();
+            const entry = {
+                timestamp: Date.now(),
+                tournamentName: tournamentData.tournamentName || '',
+                structure: tournamentData.tournamentStructure || 'unknown',
+                players: [...(tournamentData.playerNames||[])],
+                favourite: tournamentData.favouritePlayer || '',
+                favouriteResult: summary.favouriteResult || '',
+                darkHorse: tournamentData.darkHorsePlayer || '',
+                darkHorseResult: summary.darkHorseResult || '',
+                mostWon: summary.mostWon || '',
+                mostLost: summary.mostLost || '',
+                mostDiff: summary.mostDiff || '',
+                fixtures: (tournamentData.fixtures||[]).map(f=>({
+                    group: f.group, round: f.round, match: f.match, player1: f.player1, player2: f.player2, score1: f.score1, score2: f.score2, isBye: !!f.isBye
+                }))
+            };
+            const raw = localStorage.getItem('nevdarts:results:library');
+            const list = raw ? JSON.parse(raw) : [];
+            list.unshift(entry);
+            localStorage.setItem('nevdarts:results:library', JSON.stringify(list));
+            showNotification('Results saved to library!', 'success');
+        }
+
+        function promptReplayTournament() {
+            const shouldSave = confirm('Save results before replaying? Click OK to save, Cancel to skip.');
+            if (shouldSave) saveCurrentResultsToLibrary();
+            replayTournament();
+        }
+
+        function replayTournament() {
+            // Clear current results
+            (tournamentData.fixtures||[]).forEach(f=>{ if(!f.isBye){ f.score1=null; f.score2=null; } });
+            // Reshuffle players for new draw
+            const names = (tournamentData.playerNames||[]);
+            for (let i = names.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [names[i], names[j]] = [names[j], names[i]]; }
+            // Regenerate fixtures keeping current structure
+            displayNotification && showNotification('Re-drawing fixtures...', 'info');
+            generateFixtures();
+        }
+
+        // Light styling for bye rows
+        const style = document.createElement('style');
+        style.textContent = `.bye-row { opacity: 0.6; background: #f5f5f5; }`;
+        document.head.appendChild(style);
 
         function renderGroupStandingsUpToRound(groupName, maxRound) {
             const target = document.getElementById(`standings-${groupName}-${maxRound}`);
@@ -2155,13 +2341,14 @@
         }
 
         function advanceKnockoutRound(roundName) {
-            const currentFixtures = (tournamentData.fixtures || []).filter(f => f.group === roundName && !f.isBye);
+            const currentAll = (tournamentData.fixtures || []).filter(f => f.group === roundName);
+            const currentFixtures = currentAll.filter(f => !f.isBye);
             if (currentFixtures.length === 0) { showNotification('No fixtures to advance in this round.', 'info'); return; }
             // Ensure all scores entered
             const incomplete = currentFixtures.some(f => typeof f.score1 !== 'number' || typeof f.score2 !== 'number');
             if (incomplete) { showNotification('Please enter results for all matches in this round.', 'error'); return; }
             // Determine winners per match order
-            const winners = currentFixtures.map(f => (f.score1 > f.score2) ? f.player1 : f.player2);
+            const winners = currentAll.map(f => f.isBye ? f.player1 : ((f.score1 > f.score2) ? f.player1 : f.player2));
             const roundNumber = currentFixtures[0].round; // numeric round index from generator
             const nextRoundNumber = roundNumber + 1;
             const nextFixtures = (tournamentData.fixtures || []).filter(f => f.round === nextRoundNumber);
@@ -2417,26 +2604,33 @@
             table.appendChild(thead);
             
             const tbody = document.createElement('tbody');
-            (fixtures || []).filter(f => !f.isBye).forEach(fixture => {
+            (fixtures || []).forEach(fixture => {
                 const row = document.createElement('tr');
+                if (fixture.isBye) row.className = 'bye-row';
                 
                 const matchCell = document.createElement('td'); matchCell.textContent = `Match ${fixture.match}`;
                 const player1Cell = document.createElement('td'); player1Cell.textContent = fixture.player1; player1Cell.className = 'player-name';
                 const score1Cell = document.createElement('td');
-                const score1Input = document.createElement('input'); score1Input.type = 'number'; score1Input.min = '0'; score1Input.className = 'score-input'; score1Input.value = fixture.score1 !== null ? fixture.score1 : ''; score1Input.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); score1Input.dataset.player = '1'; score1Cell.appendChild(score1Input);
+                if (!fixture.isBye) {
+                    const score1Input = document.createElement('input'); score1Input.type = 'number'; score1Input.min = '0'; score1Input.className = 'score-input'; score1Input.value = fixture.score1 !== null ? fixture.score1 : ''; score1Input.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); score1Input.dataset.player = '1'; score1Cell.appendChild(score1Input);
+                } else { score1Cell.textContent = '-'; score1Cell.style.textAlign = 'center'; }
                 
-                const vsCell = document.createElement('td'); vsCell.textContent = 'vs'; vsCell.style.textAlign = 'center'; vsCell.className = 'vs-cell';
+                const vsCell = document.createElement('td'); vsCell.textContent = fixture.isBye ? '(Bye)' : 'vs'; vsCell.style.textAlign = 'center'; vsCell.className = 'vs-cell';
                 
                 const score2Cell = document.createElement('td');
-                const score2Input = document.createElement('input'); score2Input.type = 'number'; score2Input.min = '0'; score2Input.className = 'score-input'; score2Input.value = fixture.score2 !== null ? fixture.score2 : ''; score2Input.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); score2Input.dataset.player = '2'; score2Cell.appendChild(score2Input);
+                if (!fixture.isBye) {
+                    const score2Input = document.createElement('input'); score2Input.type = 'number'; score2Input.min = '0'; score2Input.className = 'score-input'; score2Input.value = fixture.score2 !== null ? fixture.score2 : ''; score2Input.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); score2Input.dataset.player = '2'; score2Cell.appendChild(score2Input);
+                } else { score2Cell.textContent = '-'; score2Cell.style.textAlign = 'center'; }
                 
                 const player2Cell = document.createElement('td'); player2Cell.textContent = fixture.player2; player2Cell.className = 'player-name';
                 const formatCell = document.createElement('td'); formatCell.className = 'format-cell'; formatCell.textContent = (tournamentData.scoreFormat === 1) ? 'Single' : `Best of ${tournamentData.scoreFormat}`;
                 
                 const actionCell = document.createElement('td');
-                const updateBtn = document.createElement('button'); updateBtn.textContent = 'Update'; updateBtn.className = 'update-btn'; updateBtn.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); updateBtn.addEventListener('click', updateFixtureResult);
-                const clearBtn = document.createElement('button'); clearBtn.textContent = 'Clear'; clearBtn.className = 'clear-btn'; clearBtn.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); clearBtn.addEventListener('click', clearFixtureResult);
-                actionCell.appendChild(updateBtn); actionCell.appendChild(document.createElement('br')); actionCell.appendChild(clearBtn);
+                if (!fixture.isBye) {
+                    const updateBtn = document.createElement('button'); updateBtn.textContent = 'Update'; updateBtn.className = 'update-btn'; updateBtn.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); updateBtn.addEventListener('click', updateFixtureResult);
+                    const clearBtn = document.createElement('button'); clearBtn.textContent = 'Clear'; clearBtn.className = 'clear-btn'; clearBtn.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); clearBtn.addEventListener('click', clearFixtureResult);
+                    actionCell.appendChild(updateBtn); actionCell.appendChild(document.createElement('br')); actionCell.appendChild(clearBtn);
+                } else { actionCell.textContent = 'Bye'; actionCell.style.fontStyle = 'italic'; actionCell.style.color = '#666'; }
                 
                 row.appendChild(matchCell);
                 row.appendChild(player1Cell);
@@ -3048,6 +3242,7 @@
             const statusEl = document.getElementById('server-status');
             const copyCmd = document.getElementById('copy-start-command');
             const copyPath = document.getElementById('copy-script-path');
+            const card = document.getElementById('server-card');
             if (!statusEl) return;
             const origin = window.location.origin;
             const host = window.location.hostname;
@@ -3057,7 +3252,8 @@
             if (isLocal && !isNaN(portNum) && portNum >= 8000 && portNum <= 8010) {
                 statusEl.textContent = `Preview status: running locally at ${origin}`;
             } else {
-                statusEl.textContent = 'Preview status: not running locally — start the server below.';
+                // Hide server card entirely on non-local origins (e.g., GitHub Pages)
+                if (card) card.style.display = 'none';
             }
             if (copyCmd) {
                 copyCmd.addEventListener('click', async () => {
@@ -3071,6 +3267,23 @@
                     try { await navigator.clipboard.writeText(path); copyPath.textContent = 'Copied!'; setTimeout(()=>copyPath.textContent='Copy Script Path', 1200); } catch(e) {}
                 });
             }
+        })();
+
+        // Quick Start tip: show once on non-local origins
+        (function initQSTip(){
+            const host = window.location.hostname;
+            const isLocal = host === '127.0.0.1' || host === 'localhost';
+            const dismissed = localStorage.getItem('nevdarts_qs_tip_dismissed') === '1';
+            const backdrop = document.getElementById('qs-tip-backdrop');
+            const dismissBtn = document.getElementById('qs-dismiss');
+            const dontShow = document.getElementById('qs-dont-show');
+            // Show only on local preview, hide on GitHub/non-local
+            if (!backdrop || !isLocal || dismissed) return;
+            backdrop.style.display = 'flex';
+            if (dismissBtn) dismissBtn.addEventListener('click', () => {
+                backdrop.style.display = 'none';
+                if (dontShow && dontShow.checked) localStorage.setItem('nevdarts_qs_tip_dismissed', '1');
+            });
         })();
 
         // Override two-group fixtures to honor custom split
