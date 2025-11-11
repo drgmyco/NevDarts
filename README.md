@@ -15,7 +15,7 @@ Disclaimer alert!! I asked Trae how to make app available - surely there would b
 showed me how to set it up in a few simple steps. So get cracking with this little wizard of a tourney creator - slick, quick, foolproof - it will put an end to scrabbling about for a pen and begging the barmaid 
 for paper, and is perfect for 4-10 or so players after the match or on a blank round of fixtures!
 
-I will end this readme intro with the phrase that inspired it all, and whcih ends every such evening when the Mini Darts Tourney wkll come in handy from now on...
+I will end this readme intro with the phrase that inspired it all, and whcih ends every such evening when the Mini Darts Tourney will come in handy from now on...
 
 See you next Tuesday!!!
 
