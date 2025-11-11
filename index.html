@@ -604,6 +604,16 @@
                         </div>
                     </div>
                 </div>
+                <!-- Server & Preview Helper -->
+                <div class="option-card basics-card" id="server-card">
+                    <h3>Server & Preview</h3>
+                    <p id="server-status">Preview status: detecting…</p>
+                    <div class="server-actions" style="display:flex; gap:8px;">
+                        <button id="copy-start-command" class="go-btn" style="width:auto;">Copy Start Command</button>
+                        <button id="copy-script-path" class="go-btn" style="width:auto;">Copy Script Path</button>
+                    </div>
+                    <p class="subtitle" style="margin-top:8px;">Run the command in PowerShell, then open <code>http://127.0.0.1:8000/</code>.</p>
+                </div>
             </div>
             <div class="form-group">
                 <div class="footer-4">
@@ -3032,6 +3042,36 @@
 
         // Show the new Basics screen on startup
         showScreen && showScreen('basics-screen');
+
+        // Server card wiring: surface local run instructions and status
+        (function initServerCard(){
+            const statusEl = document.getElementById('server-status');
+            const copyCmd = document.getElementById('copy-start-command');
+            const copyPath = document.getElementById('copy-script-path');
+            if (!statusEl) return;
+            const origin = window.location.origin;
+            const host = window.location.hostname;
+            const port = (window.location.port || '').trim();
+            const isLocal = host === '127.0.0.1' || host === 'localhost';
+            const portNum = parseInt(port, 10);
+            if (isLocal && !isNaN(portNum) && portNum >= 8000 && portNum <= 8010) {
+                statusEl.textContent = `Preview status: running locally at ${origin}`;
+            } else {
+                statusEl.textContent = 'Preview status: not running locally — start the server below.';
+            }
+            if (copyCmd) {
+                copyCmd.addEventListener('click', async () => {
+                    const txt = 'powershell -NoLogo -ExecutionPolicy Bypass -File serve.ps1';
+                    try { await navigator.clipboard.writeText(txt); copyCmd.textContent = 'Copied!'; setTimeout(()=>copyCmd.textContent='Copy Start Command', 1200); } catch(e) {}
+                });
+            }
+            if (copyPath) {
+                copyPath.addEventListener('click', async () => {
+                    const path = 'c\\\\Users\\\\drgmy\\\\Documents\\\\trae_projects\\\\NevDarts\\\\start_server.bat';
+                    try { await navigator.clipboard.writeText(path); copyPath.textContent = 'Copied!'; setTimeout(()=>copyPath.textContent='Copy Script Path', 1200); } catch(e) {}
+                });
+            }
+        })();
 
         // Override two-group fixtures to honor custom split
         function generateTwoGroupsFixtures() {
