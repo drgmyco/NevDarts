@@ -127,9 +127,9 @@
         
         .number-selector {
             display: grid;
-            grid-template-columns: 80px 1fr 80px;
+            grid-template-columns: 100px 1fr 100px;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
             justify-items: center;
         }
         .number-column {
@@ -181,26 +181,34 @@
         }
         /* Nav circles match central number size and symmetric placement */
         .nav-circle {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: var(--accent-color);
             color: #fff;
-            font-size: 28px;
+            font-size: 34px;
             font-weight: 700;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 6px 14px rgba(0, 0, 0, 0.35);
             cursor: pointer;
             transition: all 0.2s;
         }
         .nav-circle:hover { transform: scale(1.05); }
-        .nav-circle.back { background: linear-gradient(135deg, #6c757d, #495057); }
+        .nav-circle.back { background: linear-gradient(135deg, #6c757d, #495057); transform: scaleX(-1); }
+        .nav-circle.back:hover { transform: scaleX(-1) scale(1.05); }
         .nav-circle.go { background: linear-gradient(135deg, var(--highlight-color), #d63384); }
         .subtitle { font-size: 0.95rem; color: #9aa0a6; text-align: center; margin-top: 8px; }
+        .subtitle.title-match { color: var(--text-color); }
+        .tagline { font-size: 0.9rem; color: #eaeaea; text-align: center; margin-top: 4px; opacity: 0.9; }
+        .footer { margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 18px; }
+        .footer-center { color: #fff; font-size: 0.95rem; opacity: 0.95; }
+        .footer-icon { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; background: var(--card-background); border: 2px solid #fff; box-shadow: 0 3px 6px rgba(0,0,0,0.35); cursor: pointer; user-select: none; }
+        .fixtures-subtitle { text-align: center; font-size: 1.1rem; color: #eaeaea; margin-top: 10px; }
         .options.centered { max-width: 650px; margin: 0 auto; }
+        .nav-pair { display: flex; align-items: center; justify-content: center; gap: 18px; }
         
         button {
             background-color: var(--accent-color);
@@ -252,6 +260,15 @@
             background-color: rgba(52, 152, 219, 0.2);
             box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
         }
+
+        /* Save page tidy and favourites grid */
+        #save-summary-details { text-align:center; line-height:1.5; }
+        #save-to-favourites-card { margin-top: 8px; }
+        #favourites-list-container.favourites-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; }
+        .favourite-card { border:1px solid var(--border-color); border-radius:10px; padding:12px; background:#242424; }
+        .favourite-card h4 { margin:0 0 6px; color: var(--accent-color); }
+        .fav-meta { font-size: 0.95rem; color:#ddd; margin:4px 0; }
+        .fav-actions { display:flex; gap:8px; justify-content:space-between; margin-top:8px; }
         
         .option-card h3 {
             color: var(--highlight-color);
@@ -459,31 +476,139 @@
             color: #ccc;
             font-size: 0.95rem;
         }
+
+        /* Consistent central spacing for nav pairs */
+        .nav-pair {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin: 10px auto;
+        }
+
+        /* Uniform icon footer layout */
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .footer-center {
+            flex: 1;
+            text-align: center;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+        .footer-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        }
+        .footer-icon:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        /* New 4-circle footer layout */
+        .footer-4 { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 12px; background: rgba(0,0,0,0.25); border:1px solid var(--border-color); border-radius:10px; margin-top:10px; }
+        .footer-4 .nav-circle { width:60px; height:60px; font-size:18px; border:2px solid #fff; box-shadow: 0 3px 8px rgba(0,0,0,0.25); position: relative; }
+        .nav-primary { background: linear-gradient(135deg, #ff4d8a, #e63b79); color:#fff; border-color:#fff; }
+        .nav-shortcut { background: #0b1b2e; color:#6ea8fe; border-color:#6ea8fe; }
+        .nav-label { position:absolute; white-space:nowrap; background: rgba(0,0,0,0.7); color:#fff; padding:4px 8px; border-radius:6px; font-size: 11px; pointer-events:none; opacity:0; transition:opacity 0.15s ease, transform 0.15s ease; }
+        /* Left-most icon label to the right */
+        .footer-4 .nav-circle:first-child:hover .nav-label { opacity:1; transform:translateX(6px); left:62px; top:50%; transform:translate(6px,-50%); }
+        /* Right-most icon label to the left */
+        .footer-4 .nav-circle:last-child:hover .nav-label { opacity:1; right:62px; top:50%; transform:translate(-6px,-50%); }
+        /* Middle-left (Settings) label between center icons */
+        .footer-4 .nav-circle:nth-child(2):hover .nav-label { opacity:1; left:62px; top:50%; transform:translate(6px,-50%); }
+        /* Middle-right (Go) label between center icons */
+        .footer-4 .nav-circle:nth-child(3):hover .nav-label { opacity:1; right:62px; top:50%; transform:translate(-6px,-50%); }
+        /* Modal utilities for name pickers */
+        .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; align-items: center; justify-content: center; z-index: 50; }
+        .modal { background:#0f0f0f; border:1px solid var(--border-color); border-radius: 10px; padding: 16px; width: min(640px, 92vw); max-height: 80vh; overflow:auto; color:#eaeaea; }
+        .modal h3 { margin: 0 0 8px; }
+        .modal-actions { display:flex; justify-content:flex-end; gap:8px; margin-top: 8px; }
+        .pill { display:inline-block; padding:6px 10px; border:1px solid var(--border-color); border-radius:999px; margin:6px 6px 0 0; cursor:pointer; }
+        /* Utility to hide non-active cards in Basics swap */
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
     <div class="logo">
         <h1>CU Next Tuesday</h1>
         <p>Mini Darts Tourney</p>
+        <p class="tagline">The absolute chief of mini darts tourney fixture generators!!</p>
     </div>
     
     <div class="container">
         <!-- Player Count Screen -->
-        <div class="screen active" id="player-count-screen">
-            <h2>How Many Players?</h2>
-            <div class="form-group">
-                <div class="number-selector">
-                    <div class="nav-circle back" id="open-settings" title="Settings">⚙</div>
-                    <div class="number-column">
-                        <div class="arrow" id="playerCountUp">▲</div>
-                        <div class="number-display" id="playerCountDisplay">8</div>
-                        <div class="arrow" id="playerCountDown">▼</div>
+        <!-- New Combined Basics Screen -->
+        <div class="screen active" id="basics-screen">
+            <h2>Welcome to your Tourney!</h2>
+            <div class="subtitle">Create new Tourney or Load a Tourney below</div>
+            <div class="options centered" id="basics-options" style="display:flex; flex-direction:column; gap:12px; align-items:stretch;">
+                <!-- Players Selector -->
+                <div class="option-card basics-card" id="card-players">
+                    <label>Number of Players</label>
+                    <div class="number-selector">
+                        <div class="number-column">
+                            <div class="arrow" id="basicsPlayersUp">▲</div>
+                        </div>
+                        <div class="number-display" id="basicsPlayersDisplay">8</div>
+                        <div class="number-column">
+                            <div class="arrow" id="basicsPlayersDown">▼</div>
+                        </div>
                     </div>
-                    <div class="nav-circle go" id="player-count-next" title="Go">➜</div>
                 </div>
-                <p class="hint">For mini tournaments (3-16 players)</p>
+                <!-- Legs Selector -->
+                <div class="option-card basics-card" id="card-legs">
+                    <label>Number of Legs</label>
+                    <div class="number-selector">
+                        <div class="number-column">
+                            <div class="arrow" id="basicsLegsUp">▲</div>
+                        </div>
+                        <div class="number-display" id="basicsLegsDisplay">5</div>
+                        <div class="number-column">
+                            <div class="arrow" id="basicsLegsDown">▼</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Rounds Selector -->
+                <div class="option-card basics-card" id="card-rounds">
+                    <label>Number of Rounds</label>
+                    <div class="number-selector">
+                        <div class="number-column">
+                            <div class="arrow" id="basicsRoundsUp">▲</div>
+                        </div>
+                        <div class="number-display" id="basicsRoundsDisplay">1</div>
+                        <div class="number-column">
+                            <div class="arrow" id="basicsRoundsDown">▼</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="footer-4">
+                    <div class="nav-circle nav-shortcut" id="basics-save-config" title="Save Current Config">💾<span class="nav-label">Save Current Config</span></div>
+                    <div class="nav-circle nav-primary" id="basics-settings" title="Settings">⚙<span class="nav-label">Settings</span></div>
+                    <div class="nav-circle nav-primary" id="basics-next" title="Go">➜<span class="nav-label">Go</span></div>
+                    <div class="nav-circle nav-shortcut" id="basics-load-config" title="Load Previous Config">📂<span class="nav-label">Load Previous Config</span></div>
+                </div>
             </div>
         </div>
+
+        <!-- Old Player Count screen removed: unified Basics page is used -->
         
         <!-- Score Format Screen -->
         <div class="screen" id="score-format-screen">
@@ -499,13 +624,18 @@
                     </div>
                     <div class="nav-circle go" id="score-format-next" title="Go">➜</div>
                 </div>
+                <div class="footer">
+                    <div class="footer-icon" id="legs-popular" title="Popular/Last">★</div>
+                    <div class="footer-center">How many legs to win the fixture?</div>
+                    <div class="footer-icon" id="legs-saved" title="Saved Tourneys/Formats">💾</div>
+                </div>
             </div>
         </div>
         
         <!-- Games Per Player Screen -->
         <div class="screen" id="games-per-player-screen">
             <h2>How Many Rounds?</h2>
-            <div class="subtitle">How many times to play each player?</div>
+            <!-- Subtitle moved to footer -->
             <div class="form-group">
                 <div class="number-selector">
                     <div class="nav-circle back" id="games-per-player-back" title="Back">➜</div>
@@ -517,30 +647,26 @@
                     <div class="nav-circle go" id="games-per-player-next" title="Go">➜</div>
                 </div>
             </div>
-            <div class="options centered">
-                <div class="option-card" data-value="1">
-                    <h3>Play Each Player Once</h3>
-                    <p>Single round-robin format</p>
-                </div>
-                <div class="option-card" data-value="2">
-                    <h3>Play Each Player Twice</h3>
-                    <p>Double round-robin format</p>
-                </div>
+            <div class="footer">
+                <div class="footer-icon" id="rounds-popular" title="Popular/Last">★</div>
+                <div class="footer-center">How many times to play each player?</div>
+                <div class="footer-icon" id="rounds-saved" title="Saved Tourneys/Formats">💾</div>
             </div>
         </div>
         
         <!-- Tournament Structure Screen -->
         <div class="screen" id="tournament-structure-screen">
             <h2>Choose your Tourney!</h2>
-            <div class="subtitle">Pick KO or Group format; groups must have even qualifiers (2, 4, or 8).</div>
+            <div class="subtitle title-match">Play straight KO or add a group stage first!</div>
             <div id="structure-options" class="options centered">
                 <!-- Will be populated by JavaScript -->
             </div>
             <div class="form-group">
-                <div class="number-selector">
-                    <div class="nav-circle back" id="tournament-structure-back" title="Back">➜</div>
-                    <div style="height:80px"></div>
-                    <div class="nav-circle go" id="tournament-structure-next" title="Go">➜</div>
+                <div class="footer-4">
+                    <div class="nav-circle nav-shortcut" id="struct-popular" title="Popular/Last">★<span class="nav-label">Popular/Last</span></div>
+                    <div class="nav-circle nav-primary" id="tournament-structure-back" title="Back">⬅<span class="nav-label">Back</span></div>
+                    <div class="nav-circle nav-primary" id="tournament-structure-next" title="Go">➡<span class="nav-label">Go</span></div>
+                    <div class="nav-circle nav-shortcut" id="struct-saved" title="Saved Tourneys/Formats">💾<span class="nav-label">Saved Tourneys/Formats</span></div>
                 </div>
             </div>
         </div>
@@ -548,7 +674,7 @@
         <!-- Edit Your Tourney Screen -->
         <div class="screen" id="edit-tourney-screen">
             <h2>Edit Your Tourney!</h2>
-            <div class="subtitle">Apply fun features to your Mini CU N T Tourney!!</div>
+            <div class="subtitle title-match">Apply fun features to your Mini CU N T Tourney!!</div>
             <div class="form-group">
                 <label for="tourney-name">Name Tourney</label>
                 <input type="text" id="tourney-name" placeholder="e.g. CU Next Tuesday Open" />
@@ -579,10 +705,11 @@
             </div>
             <div class="form-group">
                 <label>Ready to Start Tourney?</label>
-                <div class="number-selector">
-                    <div class="nav-circle back" id="edit-tourney-back" title="Back">➜</div>
-                    <div style="height:80px"></div>
-                    <div class="nav-circle go" id="edit-tourney-next" title="Go">➜</div>
+                <div class="footer-4">
+                    <div class="nav-circle nav-shortcut" id="edit-left" title="Options">☆<span class="nav-label">Options</span></div>
+                    <div class="nav-circle nav-primary" id="edit-tourney-back" title="Back">⬅<span class="nav-label">Back</span></div>
+                    <div class="nav-circle nav-primary" id="edit-tourney-next" title="Go">➡<span class="nav-label">Go</span></div>
+                    <div class="nav-circle nav-shortcut" id="edit-right" title="Options">☆<span class="nav-label">Options</span></div>
                 </div>
             </div>
         </div>
@@ -590,25 +717,25 @@
         <!-- Save Options Screen -->
         <div class="screen" id="save-options-screen">
             <h2>Save Your Tourney?</h2>
-            <div class="options centered">
-                <div class="option-card" id="save-now-card">
-                    <h3>Save Now</h3>
-                    <p>Store your tourney config for Quick Start later</p>
-                    <button id="save-now">Save</button>
-                </div>
-                <div class="option-card" id="save-later-card">
-                    <h3>Save Later</h3>
-                    <p>Continue without saving for now</p>
-                    <button id="save-later">Continue</button>
-                </div>
+            <div class="option-card" id="save-summary-card">
+                <h3>Tourney Summary</h3>
+                <p id="save-summary-details"></p>
             </div>
-            <h3 style="margin-top:20px;">Quick Start Favourites</h3>
-            <div id="quick-start-list" class="options"></div>
+            <div class="option-card" id="save-to-favourites-card">
+                <h3>Save to Favourites</h3>
+                <p>Save this tournament configuration for quick access later.</p>
+                <button id="save-to-favourites-btn">Save to Favourites</button>
+            </div>
+            <div class="options centered" id="favourites-list">
+                <h3>Saved Favourites</h3>
+                <div id="favourites-list-container"></div>
+            </div>
             <div class="form-group">
-                <div class="number-selector">
-                    <div class="nav-circle back" id="save-options-back" title="Back">➜</div>
-                    <div style="height:80px"></div>
-                    <div class="nav-circle go" id="create-tourney-now" title="Create Your Tourney Now?">✓</div>
+                <div class="footer-4">
+                    <div class="nav-circle nav-shortcut" id="save-load" title="Load Tourney">📂<span class="nav-label">Load Tourney</span></div>
+                    <div class="nav-circle nav-primary" id="save-options-back" title="Back">⬅<span class="nav-label">Back</span></div>
+                    <div class="nav-circle nav-primary" id="create-tourney-now" title="Create Your Tourney Now?">✓<span class="nav-label">Create Tourney</span></div>
+                    <div class="nav-circle nav-shortcut" id="save-last" title="Last Tourney">⏱<span class="nav-label">Last Tourney</span></div>
                 </div>
             </div>
         </div>
@@ -616,14 +743,16 @@
         <!-- Player Names Screen -->
         <div class="screen" id="player-names-screen">
             <h2>Enter Player Names!</h2>
+            <button id="save-players-popup" class="go-btn" style="width:auto; margin-bottom:8px;">Save Players</button>
             <div id="player-names-container">
                 <!-- Will be populated by JavaScript -->
             </div>
             <div class="form-group">
-                <div class="number-selector">
-                    <div class="nav-circle back" id="player-names-back" title="Back">➜</div>
-                    <div style="height:80px"></div>
-                    <div class="nav-circle go" id="player-names-next" title="Go">➜</div>
+                <div class="footer-4">
+                    <div class="nav-circle nav-shortcut" id="multi-select-players" title="Multi Select Players">👥<span class="nav-label">Multi Select Players</span></div>
+                    <div class="nav-circle nav-primary" id="player-names-back" title="Back">⬅<span class="nav-label">Back</span></div>
+                    <div class="nav-circle nav-primary" id="player-names-next" title="Go">➡<span class="nav-label">Go</span></div>
+                    <div class="nav-circle nav-shortcut" id="load-last-tourney" title="Load Last Tourney">⏱<span class="nav-label">Load Last Tourney</span></div>
                 </div>
             </div>
         </div>
@@ -635,10 +764,247 @@
                 <!-- Will be populated by JavaScript -->
             </div>
             <div class="form-group">
-                <div class="number-selector">
-                    <div class="nav-circle back" id="fixtures-back" title="Back">➜</div>
-                    <div style="height:80px"></div>
-                    <div class="nav-circle go" id="start-tournament" title="Play Your Fixtures">▶</div>
+                <div class="footer-4">
+                    <div class="nav-circle nav-shortcut" id="fixtures-results" title="Results">📊<span class="nav-label">Results</span></div>
+                    <div class="nav-circle nav-primary" id="fixtures-back" title="Back">⬅<span class="nav-label">Back</span></div>
+                    <div class="nav-circle nav-primary" id="start-tournament" title="Play Your Fixtures">▶<span class="nav-label">Play</span></div>
+                    <div class="nav-circle nav-shortcut" id="fixtures-standings" title="Standings">📈<span class="nav-label">Standings</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Placeholder Screen -->
+        <div class="screen" id="settings-screen">
+            <h2>Settings</h2>
+            <div class="subtitle title-match">Formats, defaults, profiles, saved presets</div>
+            <div class="options centered">
+                <div class="option-card" id="settings-presets"><h3>Saved Presets</h3><p>Quick-start tourneys and formats</p></div>
+                <div class="option-card" id="settings-defaults"><h3>Defaults</h3><p>Player count, legs, rounds</p></div>
+                <div class="option-card" id="settings-profiles"><h3>Profiles</h3><p>Player aliases and notes</p></div>
+            </div>
+            <div class="form-group">
+                <div class="footer">
+                    <div class="footer-icon" title="Popular/Last">★</div>
+                    <div class="nav-pair">
+                        <div class="nav-circle back" id="settings-back" title="Back">➜</div>
+                    </div>
+                    <div class="footer-icon" title="Saved">💾</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Subpages -->
+        <div class="screen" id="settings-presets-screen">
+            <h2>Saved Presets</h2>
+            <div class="subtitle title-match">Popular mini tourney and format presets</div>
+            <div class="options centered">
+                <div class="option-card"><h3>4-player KO</h3><p>Best of 3, straight knockout</p></div>
+                <div class="option-card"><h3>8-player Groups</h3><p>Single group, top 4 advance</p></div>
+            </div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="settings-presets-back" title="Back">➜</div></div></div>
+        </div>
+        <div class="screen" id="settings-defaults-screen">
+            <h2>Defaults</h2>
+            <div class="subtitle title-match">Choose default players, legs, and rounds</div>
+            <div class="options centered">
+                <div class="option-card"><h3>Players</h3><p>Default: 8</p></div>
+                <div class="option-card"><h3>Legs</h3><p>Default: Best of 5</p></div>
+                <div class="option-card"><h3>Rounds</h3><p>Default: 1</p></div>
+            </div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="settings-defaults-back" title="Back">➜</div></div></div>
+        </div>
+        <div class="screen" id="settings-profiles-screen">
+            <h2>Profiles</h2>
+            <div class="subtitle title-match">Player aliases, notes, saved rosters</div>
+            <div class="options centered">
+                <div class="option-card"><h3>Aliases</h3><p>Link nicknames to players</p></div>
+                <div class="option-card"><h3>Notes</h3><p>Quick notes per player</p></div>
+            </div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="settings-profiles-back" title="Back">➜</div></div></div>
+        </div>
+
+        <!-- Popular/Last Placeholder Screen -->
+        <div class="screen" id="popular-screen">
+            <h2>Popular & Last</h2>
+            <div class="subtitle title-match">Recently used settings and favourite combos</div>
+            <div class="options centered">
+                <div class="option-card" id="card-last-used"><h3>Last Used</h3><p>Load the last created tourney</p></div>
+                <div class="option-card" id="card-popular-presets"><h3>Popular Presets</h3><p>Common player counts and formats</p></div>
+            </div>
+            <div class="form-group">
+                <div class="nav-pair">
+                    <div class="nav-circle back" id="popular-back" title="Back">➜</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Popular/Last Subpages -->
+        <div class="screen" id="last-used-screen">
+            <h2>Last Used</h2>
+            <div class="subtitle title-match">Your most recent tournament setup</div>
+            <div class="options centered">
+                <div class="option-card"><h3>Resume</h3><p>Load last config</p></div>
+            </div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="last-used-back" title="Back">➜</div></div></div>
+        </div>
+        <div class="screen" id="popular-presets-screen">
+            <h2>Popular Presets</h2>
+            <div class="subtitle title-match">Frequently used mini tourney formats</div>
+            <div class="options centered">
+                <div class="option-card"><h3>8-player KO</h3><p>Perfect bracket, no byes</p></div>
+                <div class="option-card"><h3>12-player Group</h3><p>Two groups, top 4 advance</p></div>
+            </div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="popular-presets-back" title="Back">➜</div></div></div>
+        </div>
+
+        <!-- Saved Tourneys/Formats Placeholder Screen -->
+        <div class="screen" id="saved-screen">
+            <h2>Saved Tourneys & Formats</h2>
+            <div class="subtitle title-match">Your favourites and templates</div>
+            <div class="options centered">
+                <div class="option-card" id="card-saved-tourneys"><h3>Saved Tourneys</h3><p>Named configs with players and prizes</p></div>
+                <div class="option-card" id="card-saved-formats"><h3>Saved Formats</h3><p>Best-of, rounds, group/KO presets</p></div>
+            </div>
+            <div class="form-group">
+                <div class="nav-pair">
+                    <div class="nav-circle back" id="saved-back" title="Back">➜</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saved Subpages -->
+        <div class="screen" id="saved-tourneys-screen">
+            <h2>Saved Tourneys</h2>
+            <div class="subtitle title-match">Your favourite tournament configurations</div>
+            <div class="options centered">
+                <div class="option-card"><h3>Friday Night</h3><p>8 players, best of 5</p></div>
+            </div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="saved-tourneys-back" title="Back">➜</div></div></div>
+        </div>
+        <div class="screen" id="saved-formats-screen">
+            <h2>Saved Formats</h2>
+            <div class="subtitle title-match">Quick-start format templates</div>
+            <div class="options centered">
+                <div class="option-card"><h3>KO Best of 3</h3><p>Quick knockout</p></div>
+            </div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="saved-formats-back" title="Back">➜</div></div></div>
+        </div>
+
+        <!-- Load/Save Field Placeholder Screens -->
+        <div class="screen" id="load-field-screen">
+            <h2>Load Field</h2>
+            <div class="subtitle title-match">Import player names from a saved list</div>
+            <div class="options centered">
+                <div class="option-card" id="card-load-field-preset"><h3>From Preset</h3><p>Select a saved field preset</p></div>
+                <div class="option-card" id="card-load-field-file"><h3>From File</h3><p>Upload CSV or text list</p></div>
+            </div>
+            <div class="form-group">
+                <div class="nav-pair">
+                    <div class="nav-circle back" id="load-field-back" title="Back">➜</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="load-field-preset-screen">
+            <h2>Load Field from Preset</h2>
+            <div class="subtitle title-match">Choose a saved roster</div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="load-field-preset-back" title="Back">➜</div></div></div>
+        </div>
+        <div class="screen" id="load-field-file-screen">
+            <h2>Load Field from File</h2>
+            <div class="subtitle title-match">Upload CSV or paste names</div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="load-field-file-back" title="Back">➜</div></div></div>
+        </div>
+
+        <div class="screen" id="save-field-screen">
+            <h2>Save Field</h2>
+            <div class="subtitle title-match">Store current player names as a preset</div>
+            <div class="options centered">
+                <div class="option-card" id="card-save-field-name"><h3>Name Preset</h3><p>Give your field a name</p></div>
+                <div class="option-card" id="card-save-field-export"><h3>Export</h3><p>Download CSV or share</p></div>
+            </div>
+            <div class="form-group">
+                <div class="nav-pair">
+                    <div class="nav-circle back" id="save-field-back" title="Back">➜</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="save-field-name-screen">
+            <h2>Name Field Preset</h2>
+            <div class="subtitle title-match">Give your field a memorable name</div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="save-field-name-back" title="Back">➜</div></div></div>
+        </div>
+        <div class="screen" id="save-field-export-screen">
+            <h2>Export Field</h2>
+            <div class="subtitle title-match">Download CSV or share link</div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="save-field-export-back" title="Back">➜</div></div></div>
+        </div>
+
+        <!-- Load/Last Tourney Placeholder Screens -->
+        <div class="screen" id="load-tourney-screen">
+            <h2>Load Tourney</h2>
+            <div class="subtitle title-match">Load a previously saved tournament</div>
+            <div class="options centered">
+                <div class="option-card" id="card-load-tourney-favourites"><h3>From Favourites</h3><p>Choose a saved favourite</p></div>
+                <div class="option-card" id="card-load-tourney-file"><h3>From File</h3><p>Upload a tourney config</p></div>
+            </div>
+            <div class="form-group">
+                <div class="nav-pair">
+                    <div class="nav-circle back" id="load-tourney-back" title="Back">➜</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="last-tourney-screen">
+            <h2>Last Tourney</h2>
+            <div class="subtitle title-match">Quickly resume the most recent tournament</div>
+            <div class="options centered">
+                <div class="option-card" id="card-last-tourney-resume"><h3>Resume</h3><p>Continue from where you left off</p></div>
+                <div class="option-card" id="card-last-tourney-review"><h3>Review</h3><p>See previous fixtures and settings</p></div>
+            </div>
+            <div class="form-group">
+                <div class="nav-pair">
+                    <div class="nav-circle back" id="last-tourney-back" title="Back">➜</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load/Last Tourney Subpages -->
+        <div class="screen" id="load-tourney-favourites-screen">
+            <h2>Load From Favourites</h2>
+            <div class="subtitle title-match">Pick a saved favourite tournament</div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="load-tourney-favourites-back" title="Back">➜</div></div></div>
+        </div>
+        <div class="screen" id="load-tourney-file-screen">
+            <h2>Load From File</h2>
+            <div class="subtitle title-match">Upload a saved tourney config</div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="load-tourney-file-back" title="Back">➜</div></div></div>
+        </div>
+        <div class="screen" id="last-tourney-resume-screen">
+            <h2>Resume Last Tourney</h2>
+            <div class="subtitle title-match">Pick up right where you left off</div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="last-tourney-resume-back" title="Back">➜</div></div></div>
+        </div>
+        <div class="screen" id="last-tourney-review-screen">
+            <h2>Review Last Tourney</h2>
+            <div class="subtitle title-match">Browse fixtures and settings from last tourney</div>
+            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="last-tourney-review-back" title="Back">➜</div></div></div>
+        </div>
+
+        <!-- Two-Group Custom Split (10+ players) -->
+        <div class="screen" id="two-group-custom-screen">
+            <h2>Custom Two-Group Split</h2>
+            <div class="subtitle title-match">Choose Group A size (min 3 players)</div>
+            <div class="form-group">
+                <label>Group A size</label>
+                <input type="number" id="groupAInput" min="3" value="8" />
+                <p id="groupSplitPreview">Group A: -, Group B: -</p>
+            </div>
+            <div class="form-group">
+                <div class="nav-pair">
+                    <div class="nav-circle back" id="two-group-custom-back" title="Back">➜</div>
+                    <div class="nav-circle go" id="apply-two-group-custom" title="Apply">✓</div>
                 </div>
             </div>
         </div>
@@ -660,39 +1026,80 @@
             favouriteSlot: null,
             darkHorseSlot: null,
             favouritePlayer: '',
-            darkHorsePlayer: ''
+            darkHorsePlayer: '',
+            twoGroupCustomA: null
         };
         
-        // Navigation functions
+        // Small util for safe event wiring
+        function addClick(id, handler) {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', handler);
+        }
+        
+        // Navigation functions with simple history stack
+        let navHistory = [];
+        let __suppressHistoryPush = false;
         function showScreen(screenId) {
+            // Identify current active screen before switching
+            const current = document.querySelector('.screen.active');
+            const currentId = current ? current.id : null;
+
             // Hide all screens
             document.querySelectorAll('.screen').forEach(screen => {
                 screen.classList.remove('active');
             });
-            
+
             // Show the requested screen
-            document.getElementById(screenId).classList.add('active');
+            const target = document.getElementById(screenId);
+            if (!target) return;
+            target.classList.add('active');
+
+            // Push the previous screen onto history unless suppressed
+            if (!__suppressHistoryPush && currentId && currentId !== screenId) {
+                navHistory.push(currentId);
+            }
+
+            if (screenId === 'standings-screen') {
+                renderStandings();
+            }
+        }
+
+        function goBack() {
+            const prevId = navHistory.pop();
+            if (!prevId) { showScreen('basics-screen'); return; }
+            __suppressHistoryPush = true;
+            showScreen(prevId);
+            __suppressHistoryPush = false;
         }
         
-        // Player Count Screen
-        document.getElementById('player-count-next').addEventListener('click', function() {
-            // Get player count from the display element instead of input field
-            const playerCount = parseInt(document.getElementById('playerCountDisplay').textContent);
-            
-            if (playerCount < 3) {
-                alert('Please enter at least 3 players');
-                return;
-            }
-            
-            if (playerCount > 16) {
-                alert('This app is designed for mini tournaments with up to 16 players');
-                return;
-            }
-            
-            tournamentData.playerCount = playerCount;
-            showScreen('score-format-screen');
-        });
+        // Old Player Count flow removed; unified Basics flow is used
         
+        // Footer shortcuts wiring (guarded)
+        addClick('open-settings', () => showScreen('settings-screen'));
+        addClick('pc-popular', () => showScreen('popular-screen'));
+        addClick('pc-saved', () => showScreen('saved-screen'));
+        addClick('legs-popular', () => showScreen('popular-screen'));
+        addClick('legs-saved', () => showScreen('saved-screen'));
+        addClick('rounds-popular', () => showScreen('popular-screen'));
+        addClick('rounds-saved', () => showScreen('saved-screen'));
+        addClick('struct-popular', () => showScreen('popular-screen'));
+        addClick('struct-saved', () => showScreen('saved-screen'));
+        addClick('edit-left', () => showScreen('popular-screen'));
+        addClick('edit-right', () => showScreen('saved-screen'));
+        addClick('names-load', () => showScreen('load-field-screen'));
+        addClick('names-save', () => showScreen('save-field-screen'));
+        addClick('save-load', () => showScreen('load-tourney-screen'));
+        addClick('save-last', () => showScreen('last-tourney-screen'));
+
+        // Placeholder screens back buttons (use unified history)
+        addClick('settings-back', () => goBack());
+        addClick('popular-back', () => goBack());
+        addClick('saved-back', () => goBack());
+        addClick('load-field-back', () => goBack());
+        addClick('save-field-back', () => goBack());
+        addClick('load-tourney-back', () => goBack());
+        addClick('last-tourney-back', () => goBack());
+
         // Score Format Screen
         document.querySelectorAll('#score-format-screen .option-card').forEach(option => {
             option.addEventListener('click', function() {
@@ -710,7 +1117,7 @@
         });
         
         document.getElementById('score-format-back').addEventListener('click', function() {
-            showScreen('player-count-screen');
+            goBack();
         });
         
         document.getElementById('score-format-next').addEventListener('click', function() {
@@ -739,7 +1146,7 @@
         });
         
         document.getElementById('games-per-player-back').addEventListener('click', function() {
-            showScreen('score-format-screen');
+            goBack();
         });
         
         document.getElementById('games-per-player-next').addEventListener('click', function() {
@@ -759,62 +1166,144 @@
             structureOptions.innerHTML = '';
             
             const playerCount = tournamentData.playerCount;
+            function computeKOInfo(n){
+                // Based on provided KO table
+                if (n === 4) return { round: 'SF', byes: 0, prelims: 0, path: 'SF > Final' };
+                if (n === 5) return { round: 'Prelim', byes: 0, prelims: 1, path: 'Prelim > SF > Final' };
+                if (n === 6) return { round: 'QF', byes: 2, prelims: 0, path: 'QF > SF > Final' };
+                if (n === 7) return { round: 'QF', byes: 1, prelims: 0, path: 'QF > SF > Final' };
+                if (n === 8) return { round: 'QF', byes: 0, prelims: 0, path: 'QF > SF > Final' };
+                if (n === 9) return { round: 'Prelim', byes: 0, prelims: 1, path: 'Prelim > QF > SF > Final' };
+                if (n === 10) return { round: 'Prelim', byes: 0, prelims: 2, path: 'Prelim > QF > SF > Final' };
+                if (n === 11) return { round: 'Prelim', byes: 0, prelims: 3, path: 'Prelim > QF > SF > Final' };
+                if (n === 12) return { round: 'R16', byes: 4, prelims: 0, path: 'R16 > QF > SF > Final' };
+                if (n === 13) return { round: 'R16', byes: 3, prelims: 0, path: 'R16 > QF > SF > Final' };
+                if (n === 14) return { round: 'R16', byes: 2, prelims: 0, path: 'R16 > QF > SF > Final' };
+                if (n === 15) return { round: 'R16', byes: 1, prelims: 0, path: 'R16 > QF > SF > Final' };
+                if (n === 16) return { round: 'R16', byes: 0, prelims: 0, path: 'R16 > QF > SF > Final' };
+                return { round: 'KO', byes: 0, prelims: 0, path: 'KO to Final' };
+            }
             
             // Option 1: Straight Knockout
             const knockoutOption = document.createElement('div');
             knockoutOption.className = 'option-card';
             knockoutOption.setAttribute('data-value', 'knockout');
             
-            let knockoutDescription = '';
-            if ([4, 8, 16].includes(playerCount)) {
-                knockoutDescription = `Perfect for ${playerCount} players - no byes needed`;
-            } else if (playerCount < 4) {
-                knockoutDescription = 'Need at least 4 players for knockout';
-            } else {
-                const nextPowerOfTwo = Math.pow(2, Math.ceil(Math.log2(playerCount)));
-                const byesNeeded = nextPowerOfTwo - playerCount;
-                knockoutDescription = `${byesNeeded} ${byesNeeded === 1 ? 'bye' : 'byes'} needed in first round`;
-            }
-            
+            const ko = computeKOInfo(playerCount);
             knockoutOption.innerHTML = `
                 <h3>Straight KO</h3>
-                <p>Single elimination tournament</p>
-                <p>${knockoutDescription}</p>
+                <ul>
+                    <li>No nonsense ${playerCount} player knockout cup!</li>
+                    <li>Round 1: ${ko.round}${ko.byes ? ` · ${ko.byes} bye${ko.byes>1?'s':''}` : ''}${ko.prelims ? ` · ${ko.prelims} prelim${ko.prelims>1?'s':''}` : ''}</li>
+                    <li>${ko.path}</li>
+                </ul>
             `;
             structureOptions.appendChild(knockoutOption);
             
+            // Helper: qualifiers for single group
+            function getSingleGroupQualifiers(n) {
+                // From the Single Group table
+                if (n <= 4) return 2; // Final
+                if (n <= 10) return 4; // SF
+                return 8; // QF for 11-16
+            }
+            function singleGroupPath(q) {
+                return q === 2 ? 'Final' : q === 4 ? 'SF > Final' : 'QF > SF > Final';
+            }
+            // Helper: multi group suggestion string close to 4 per group
+            function getMultiGroupSuggestions(n) {
+                const specials = {
+                    6: ['3 + 3'],
+                    7: ['4 + 3'],
+                    9: ['4 + 5'],
+                    10: ['3 + 3 + 4', '4 + 5'],
+                    11: ['3 + 4 + 4'],
+                    13: ['4 + 4 + 5'],
+                    14: ['4 + 5 + 5'],
+                    15: ['3 + 4 + 4 + 4']
+                };
+                if (specials[n]) return specials[n];
+                // default: distribute across ceil(n/4) groups with sizes 3-5
+                const groups = Math.max(2, Math.ceil(n / 4));
+                const base = Math.floor(n / groups);
+                const rem = n % groups;
+                const sizes = Array.from({ length: groups }, (_, i) => base + (i < rem ? 1 : 0));
+                return [sizes.join(' + ')];
+            }
+
             // Option 2: Single group
             const singleGroupOption = document.createElement('div');
             singleGroupOption.className = 'option-card';
             singleGroupOption.setAttribute('data-value', 'single');
             
-            // Advance count must be one of 2, 4, 8 (even) and <= half of players
-            const allowedAdvances = [8, 4, 2];
-            const halfPlayers = Math.floor(playerCount / 2);
-            const advanceCount = allowedAdvances.find(a => a <= halfPlayers) || 2;
+            const advanceCount = getSingleGroupQualifiers(playerCount);
             
             singleGroupOption.innerHTML = `
                 <h3>Single Group</h3>
-                <p>All ${playerCount} players in one group</p>
-                <p>Top ${advanceCount} advance to knockout stage (2/4/8 only)</p>
+                <ul>
+                    <li>Let’s get ready to rumble – all ${playerCount} players in one group!!</li>
+                    <li>Top ${advanceCount} advance to KO stage</li>
+                    <li>${singleGroupPath(advanceCount)}</li>
+                </ul>
             `;
             structureOptions.appendChild(singleGroupOption);
             
-            // Option 3: Two groups (if enough players)
+            // Option 3: Multi Group – use explicit splits and qualifiers from your table
             if (playerCount >= 6) {
-                const twoGroupsOption = document.createElement('div');
-                twoGroupsOption.className = 'option-card';
-                twoGroupsOption.setAttribute('data-value', 'two');
-                
-                const group1Size = Math.ceil(playerCount / 2);
-                const group2Size = playerCount - group1Size;
-                
-                twoGroupsOption.innerHTML = `
+                const groupsOption = document.createElement('div');
+                groupsOption.className = 'option-card';
+                groupsOption.setAttribute('data-value', 'groups');
+                let sizes = [];
+                let qualifiers = [];
+                let thirdPlaces = 0;
+                let path = '';
+                switch (playerCount) {
+                    case 6: sizes = [3,3]; qualifiers = [2,2]; thirdPlaces = 0; path = 'SF > Final'; break;
+                    case 7: sizes = [4,3]; qualifiers = [2,2]; thirdPlaces = 0; path = 'SF > Final'; break;
+                    case 8: sizes = [4,4]; qualifiers = [2,2]; thirdPlaces = 0; path = 'SF > Final'; break;
+                    case 9: sizes = [5,4]; qualifiers = [2,2]; thirdPlaces = 0; path = 'SF > Final'; break;
+                    case 10: sizes = [4,3,3]; qualifiers = [2,1,1]; thirdPlaces = 0; path = 'SF > Final'; break;
+                    case 11: sizes = [4,4,3]; qualifiers = [1,1,1]; thirdPlaces = 1; path = 'SF > Final'; break;
+                    case 12: sizes = [4,4,4]; qualifiers = [2,2,2]; thirdPlaces = 2; path = 'QF > SF > Final'; break;
+                    case 13: sizes = [5,4,4]; qualifiers = [2,2,2]; thirdPlaces = 2; path = 'QF > SF > Final'; break;
+                    case 14: sizes = [4,4,3,3]; qualifiers = [2,2,2,2]; thirdPlaces = 0; path = 'QF > SF > Final'; break;
+                    case 15: sizes = [4,4,4,3]; qualifiers = [2,2,2,2]; thirdPlaces = 0; path = 'QF > SF > Final'; break;
+                    case 16: sizes = [4,4,4,4]; qualifiers = [2,2,2,2]; thirdPlaces = 0; path = 'QF > SF > Final'; break;
+                    default:
+                        // Fallback to approximately even split
+                        const groups = Math.max(2, Math.ceil(playerCount / 4));
+                        const base = Math.floor(playerCount / groups);
+                        const rem = playerCount % groups;
+                        sizes = Array.from({ length: groups }, (_, i) => base + (i < rem ? 1 : 0));
+                        qualifiers = Array.from({ length: groups }, () => 2);
+                        thirdPlaces = Math.max(0, 8 - qualifiers.reduce((a,b)=>a+b,0));
+                        path = qualifiers.reduce((a,b)=>a+b,0) + thirdPlaces <= 4 ? 'SF > Final' : 'QF > SF > Final';
+                        break;
+                }
+                const XG = sizes.length;
+                const modeQual = qualifiers.sort((a,b)=>a-b)[Math.floor(qualifiers.length/2)] || 2;
+                let secondLine = `Q players from each group advance to KO stage!!`;
+                if (playerCount === 10) {
+                    secondLine = `Group winners, plus 2nd player in 4 player group advance to KO stage!!`;
+                } else if (playerCount >= 11) {
+                    secondLine = `Top ${modeQual} from each group, plus best 3rd placed players advance to KO stage`;
+                } else {
+                    secondLine = `Top ${modeQual} from each group advance to KO stage!!`;
+                }
+
+                groupsOption.innerHTML = `
                     <h3>Multi Group</h3>
-                    <p>Group A: ${group1Size} players, Group B: ${group2Size} players</p>
-                    <p>Top 2 from each group advance to semifinals</p>
+                    <ul>
+                        <li>${playerCount} players in ${XG} round-robin groups, then a KO stage – this is only for Big CU N T’s!!</li>
+                        <li>${secondLine}</li>
+                        <li>${path}</li>
+                    </ul>
                 `;
-                structureOptions.appendChild(twoGroupsOption);
+                structureOptions.appendChild(groupsOption);
+                tournamentData.tournamentStructure = 'groups';
+                tournamentData.groupSizes = sizes;
+                tournamentData.groupQualifiersPerGroup = qualifiers; // per-group array
+                tournamentData.groupBestThirdCount = thirdPlaces;
             }
             
             // Add event listeners to the options
@@ -835,7 +1324,7 @@
         }
         
         document.getElementById('tournament-structure-back').addEventListener('click', function() {
-            showScreen('games-per-player-screen');
+            goBack();
         });
         
         document.getElementById('tournament-structure-next').addEventListener('click', function() {
@@ -848,6 +1337,12 @@
             showScreen('player-names-screen');
         });
 
+        // Fixtures footer icons wiring
+        addClick('fixtures-results', () => showScreen('results-screen'));
+        addClick('fixtures-standings', () => showScreen('standings-screen'));
+        addClick('results-back', () => goBack());
+        addClick('standings-back', () => goBack());
+
         // Edit Your Tourney Screen logic
         function populateEditTourneyFields() {
             const favSelect = document.getElementById('favourite-slot');
@@ -857,11 +1352,11 @@
             for (let i = 1; i <= tournamentData.playerCount; i++) {
                 const opt1 = document.createElement('option');
                 opt1.value = i;
-                opt1.textContent = `Player ${i}`;
+                opt1.textContent = tournamentData.playerNames[i - 1] || `Player ${i}`;
                 favSelect.appendChild(opt1);
                 const opt2 = document.createElement('option');
                 opt2.value = i;
-                opt2.textContent = `Player ${i}`;
+                opt2.textContent = tournamentData.playerNames[i - 1] || `Player ${i}`;
                 darkSelect.appendChild(opt2);
             }
             // Restore previous values if any
@@ -877,11 +1372,16 @@
         }
 
         document.getElementById('edit-tourney-back').addEventListener('click', function() {
-            showScreen('tournament-structure-screen');
+            goBack();
         });
 
         document.getElementById('edit-tourney-next').addEventListener('click', function() {
             tournamentData.tournamentName = document.getElementById('tourney-name').value.trim();
+            if (!tournamentData.tournamentName) {
+                alert('Please enter a Tourney Name');
+                document.getElementById('tourney-name').focus();
+                return;
+            }
             tournamentData.entryFee = parseFloat(document.getElementById('entry-fee').value) || 0;
             tournamentData.prizePool = tournamentData.playerCount * (tournamentData.entryFee || 0);
             tournamentData.winnerPrize = parseFloat(document.getElementById('winner-prize').value) || 0;
@@ -896,7 +1396,6 @@
                 return;
             }
 
-            populateQuickStart();
             showScreen('save-options-screen');
         });
 
@@ -914,6 +1413,10 @@
         }
         function saveFavourite() {
             const list = getFavourites();
+            if (list.length >= 4) {
+                showNotification('Max 4 favourites. Delete one to save a new tourney.', 'info');
+                return;
+            }
             const fav = {
                 timestamp: Date.now(),
                 title: tournamentData.tournamentName || `Tourney (${tournamentData.playerCount} players)`,
@@ -929,9 +1432,8 @@
                 prizePool: tournamentData.prizePool || 0
             };
             list.unshift(fav);
-            setFavourites(list.slice(0, 10)); // keep last 10
+            setFavourites(list.slice(0, 4)); // keep max 4
             showNotification('Tourney saved to favourites!', 'success');
-            populateQuickStart();
         }
         function loadFavourite(index) {
             const list = getFavourites();
@@ -953,39 +1455,73 @@
             generatePlayerNameInputs();
             showScreen('player-names-screen');
         }
-        function populateQuickStart() {
+
+        // === Favourites list rendering and summary helpers ===
+        function deleteFavourite(index) {
             const list = getFavourites();
-            const container = document.getElementById('quick-start-list');
-            container.innerHTML = '';
-            if (list.length === 0) {
-                const empty = document.createElement('div');
-                empty.className = 'option-card';
-                empty.innerHTML = '<p>No favourites saved yet</p>';
-                container.appendChild(empty);
+            if (index < 0 || index >= list.length) return;
+            list.splice(index, 1);
+            setFavourites(list);
+            renderFavourites();
+            showNotification('Favourite deleted', 'info');
+        }
+
+        function renderFavourites() {
+            const container = document.getElementById('favourites-list-container');
+            if (!container) return;
+            const list = getFavourites();
+            if (!list || list.length === 0) {
+                container.innerHTML = '<p>No saved favourites yet.</p>';
                 return;
             }
-            list.forEach((fav, idx) => {
+            container.innerHTML = '';
+            container.classList.add('favourites-grid');
+            list.slice(0,4).forEach((fav, idx) => {
                 const card = document.createElement('div');
-                card.className = 'option-card';
-                card.innerHTML = `<h3>${fav.title}</h3>
-                    <p>${fav.playerCount} players • ${fav.tournamentStructure} • Best of ${fav.scoreFormat}</p>
-                    <button data-idx="${idx}" class="load-fav">Load</button>`;
+                card.className = 'favourite-card';
+                const h = document.createElement('h4'); h.textContent = fav.title; card.appendChild(h);
+                const meta1 = document.createElement('div'); meta1.className = 'fav-meta'; meta1.textContent = `Name: ${fav.title}`; card.appendChild(meta1);
+                const meta2 = document.createElement('div'); meta2.className = 'fav-meta'; meta2.textContent = `Players: ${fav.playerCount}`; card.appendChild(meta2);
+                const actions = document.createElement('div'); actions.className = 'fav-actions';
+                const loadBtn = document.createElement('button'); loadBtn.textContent = 'Load'; loadBtn.addEventListener('click', () => loadFavourite(idx));
+                const delBtn = document.createElement('button'); delBtn.textContent = 'Delete'; delBtn.addEventListener('click', () => deleteFavourite(idx));
+                actions.appendChild(loadBtn); actions.appendChild(delBtn);
+                card.appendChild(actions);
                 container.appendChild(card);
             });
-            container.querySelectorAll('.load-fav').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const idx = parseInt(e.target.getAttribute('data-idx'), 10);
-                    loadFavourite(idx);
-                });
-            });
         }
+
+        function updateSaveSummary() {
+            const el = document.getElementById('save-summary-details');
+            if (!el) return;
+            el.innerHTML = generateTournamentSummary();
+        }
+
+        function generateTournamentSummary() {
+            const { playerCount, tournamentStructure, gamesPerPlayer, favouriteSlot, darkHorseSlot, entryFee, prizePool, playerNames } = tournamentData;
+            let summaryTop = `${playerCount} players · ${tournamentStructure}`;
+            if (tournamentStructure === 'single') {
+                summaryTop += ` · ${gamesPerPlayer} game${gamesPerPlayer > 1 ? 's' : ''} each`;
+            }
+            const favName = (typeof favouriteSlot === 'number' && playerNames && playerNames[favouriteSlot-1]) ? playerNames[favouriteSlot-1] : 'N/A';
+            const dhName = (typeof darkHorseSlot === 'number' && playerNames && playerNames[darkHorseSlot-1]) ? playerNames[darkHorseSlot-1] : 'N/A';
+            const summaryBottom = `Favourite: ${favName} · Dark Horse: ${dhName}${entryFee?` · Entry £${Number(entryFee).toFixed(2)}`:''}${prizePool?` · Prize Pool £${Number(prizePool).toFixed(2)}`:''}`;
+            return `${summaryTop}<br>${summaryBottom}`;
+        }
+
+        // Hook up Save to Favourites button
+        (function() {
+            const btn = document.getElementById('save-to-favourites-btn');
+            if (btn) btn.addEventListener('click', function() {
+                saveFavourite();
+                renderFavourites();
+                updateSaveSummary();
+            });
+        })();
         document.getElementById('save-options-back').addEventListener('click', function() {
-            showScreen('edit-tourney-screen');
+            goBack();
         });
-        document.getElementById('save-now').addEventListener('click', function() {
-            saveFavourite();
-        });
-        document.getElementById('save-later').addEventListener('click', function() {
+        document.getElementById('create-tourney-now').addEventListener('click', function() {
             generateFixtures();
             showScreen('fixtures-screen');
         });
@@ -1009,15 +1545,36 @@
                 input.id = `player-${i}`;
                 input.placeholder = `Enter name for Player ${i + 1}`;
                 input.value = tournamentData.playerNames[i] || '';
-                
+                // Add Load and Save shortcuts left/right of the input
+                const row = document.createElement('div');
+                row.style.display = 'flex';
+                row.style.alignItems = 'center';
+                row.style.gap = '8px';
+
+                const loadBtn = document.createElement('button');
+                loadBtn.textContent = 'Load';
+                loadBtn.className = 'circle';
+                loadBtn.style.minWidth = '56px';
+                loadBtn.addEventListener('click', () => showLoadDropdownForSlot(i));
+
+                const saveBtn = document.createElement('button');
+                saveBtn.textContent = 'Save';
+                saveBtn.className = 'circle';
+                saveBtn.style.minWidth = '56px';
+                saveBtn.addEventListener('click', () => savePlayerNameSlot(i));
+
+                row.appendChild(loadBtn);
+                row.appendChild(input);
+                row.appendChild(saveBtn);
+
                 formGroup.appendChild(label);
-                formGroup.appendChild(input);
+                formGroup.appendChild(row);
                 playerNamesContainer.appendChild(formGroup);
             }
         }
         
         document.getElementById('player-names-back').addEventListener('click', function() {
-            showScreen('tournament-structure-screen');
+            goBack();
         });
         
         document.getElementById('player-names-next').addEventListener('click', function() {
@@ -1050,6 +1607,108 @@
                 showScreen('edit-tourney-screen');
             }
         });
+
+        // === Names modal, filters, and multi-select ===
+        function getNameLibrary() {
+            const lastRaw = localStorage.getItem('nevdarts:players:names');
+            const last = lastRaw ? JSON.parse(lastRaw).filter(n => !!n) : [];
+            const slots = [];
+            for (let i = 0; i < 32; i++) {
+                const v = localStorage.getItem(`nevdarts:playerSlot_${i}`);
+                if (v) slots.push(v);
+            }
+            const allSet = new Set([...last, ...slots]);
+            const all = Array.from(allSet);
+            const last10 = all.slice(0, 10);
+            return { all, last, last10 };
+        }
+
+        function openNamesModal(title, innerHtml, onSave) {
+            const backdrop = document.getElementById('names-modal');
+            const content = document.getElementById('names-modal-content');
+            const titleEl = document.getElementById('names-modal-title');
+            if (!backdrop || !content || !titleEl) return;
+            titleEl.textContent = title;
+            content.innerHTML = innerHtml;
+            backdrop.style.display = 'flex';
+            const cancelBtn = document.getElementById('names-modal-cancel');
+            const saveBtn = document.getElementById('names-modal-save');
+            const close = () => { backdrop.style.display = 'none'; };
+            if (cancelBtn) cancelBtn.onclick = close;
+            if (saveBtn) saveBtn.onclick = () => { onSave && onSave(); close(); };
+        }
+
+        function showLoadDropdownForSlot(i) {
+            const lib = getNameLibrary();
+            const makeList = (arr) => arr.map(n => `<div class="pill" data-name="${n}">${n}</div>`).join('');
+            const inner = `
+              <div style="margin-bottom:8px;">
+                <label><input type="checkbox" id="flt-last" checked> Last Tourney</label>
+                <label style="margin-left:12px;"><input type="checkbox" id="flt-last10"> Last 10 Players</label>
+                <label style="margin-left:12px;"><input type="checkbox" id="flt-all"> All Players</label>
+              </div>
+              <div id="names-pool" style="margin-top:6px;">${makeList(lib.last)}</div>`;
+            openNamesModal('Load Player Name', inner, () => {/* no global save on picker */});
+            const pool = document.getElementById('names-pool');
+            function refreshPool() {
+                const useLast = document.getElementById('flt-last').checked;
+                const useLast10 = document.getElementById('flt-last10').checked;
+                const useAll = document.getElementById('flt-all').checked;
+                let arr = [];
+                if (useLast) arr = lib.last;
+                else if (useLast10) arr = lib.last10;
+                else if (useAll) arr = lib.all;
+                pool.innerHTML = arr.map(n => `<div class='pill' data-name='${n}'>${n}</div>`).join('');
+            }
+            ['flt-last','flt-last10','flt-all'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.onchange = refreshPool;
+            });
+            pool.addEventListener('click', (e) => {
+                const pill = e.target.closest('.pill');
+                if (!pill) return;
+                const name = pill.getAttribute('data-name');
+                const input = document.getElementById(`player-${i}`);
+                if (input) input.value = name;
+                // remove from pool to avoid re-selection for remaining slots
+                pill.remove();
+            });
+        }
+
+        function showMultiSelectModal() {
+            const lib = getNameLibrary();
+            const inner = `<div style='display:grid;grid-template-columns:repeat(2,1fr);gap:6px;'>${lib.all.map(n => `<label><input type='checkbox' class='pick-name' value='${n}'> ${n}</label>`).join('')}</div>`;
+            openNamesModal('Multi Select Players', inner, () => {
+                const picks = Array.from(document.querySelectorAll('.pick-name:checked')).map(el => el.value);
+                // populate entrants with selected names
+                for (let i = 0; i < tournamentData.playerCount && i < picks.length; i++) {
+                    const input = document.getElementById(`player-${i}`);
+                    if (input) input.value = picks[i];
+                }
+                saveAllPlayerNames();
+            });
+        }
+
+        (function wireNamesFooterAndPopups(){
+            const savePopupBtn = document.getElementById('save-players-popup');
+            if (savePopupBtn) savePopupBtn.onclick = () => {
+                const names = [];
+                for (let i = 0; i < tournamentData.playerCount; i++) {
+                    const val = (document.getElementById(`player-${i}`)?.value || '').trim();
+                    if (val) names.push(val);
+                }
+                const inner = `<p>Saved Player Names Library</p><div>${names.map(n => `<div class='pill'>${n}</div>`).join('')}</div>`;
+                openNamesModal('Save Players', inner, () => saveAllPlayerNames());
+            };
+            const multiSelectBtn = document.getElementById('multi-select-players');
+            if (multiSelectBtn) multiSelectBtn.onclick = showMultiSelectModal;
+            const lastBtn = document.getElementById('load-last-tourney');
+            if (lastBtn) lastBtn.onclick = () => {
+                const lib = getNameLibrary();
+                const inner = `<div>${lib.last.map(n => `<div class='pill'>${n}</div>`).join('')}</div>`;
+                openNamesModal('Load Last Tourney', inner, () => loadAllPlayerNames());
+            };
+        })();
         
         // Fixtures Generation
         function generateFixtures() {
@@ -1306,11 +1965,12 @@
             // Tourney info banner
             const info = document.createElement('div');
             info.id = 'tourney-info';
+            info.className = 'fixtures-subtitle';
             const name = tournamentData.tournamentName || 'Your Tourney';
             const fav = tournamentData.favouritePlayer ? `Favourite: ${tournamentData.favouritePlayer}` : '';
             const dark = tournamentData.darkHorsePlayer ? `Dark Horse: ${tournamentData.darkHorsePlayer}` : '';
             const prize = tournamentData.winnerPrize || tournamentData.runnerUpPrize ? `Prizes: ${tournamentData.winnerPrize || '-'} | ${tournamentData.runnerUpPrize || '-'}` : '';
-            info.textContent = `${name} ${fav ? ' • ' + fav : ''}${dark ? ' • ' + dark : ''}${prize ? ' • ' + prize : ''}`;
+            info.textContent = `Tourney: ${name}${fav ? ' • ' + fav : ''}${dark ? ' • ' + dark : ''}${prize ? ' • ' + prize : ''}`;
             fixturesContainer.appendChild(info);
             
             if (tournamentData.tournamentStructure === 'knockout') {
@@ -1342,8 +2002,21 @@
                         roundHeader.textContent = `Game Round ${round}`;
                         fixturesContainer.appendChild(roundHeader);
                         
-                        const roundTable = createFixtureTable(groupARounds[round]);
+                        const roundTable = createFixtureTable(groupARounds[round].filter(f => !f.note));
                         fixturesContainer.appendChild(roundTable);
+
+                        // Inline Save and standings between rounds (Group A)
+                        const saveBtn = document.createElement('button');
+                        saveBtn.textContent = 'Save Round Results';
+                        saveBtn.className = 'update-btn';
+                        saveBtn.addEventListener('click', () => {
+                            renderGroupStandingsUpToRound('A', Number(round));
+                            showNotification('Round saved. Standings updated below.', 'success');
+                        });
+                        fixturesContainer.appendChild(saveBtn);
+                        const standBox = document.createElement('div');
+                        standBox.id = `standings-A-${round}`;
+                        fixturesContainer.appendChild(standBox);
                     });
                 }
                 
@@ -1369,9 +2042,31 @@
                         roundHeader.textContent = `Game Round ${round}`;
                         fixturesContainer.appendChild(roundHeader);
                         
-                        const roundTable = createFixtureTable(groupBRounds[round]);
+                        const roundTable = createFixtureTable(groupBRounds[round].filter(f => !f.note));
                         fixturesContainer.appendChild(roundTable);
+
+                        // Inline Save and standings between rounds (Group B)
+                        const saveBtn = document.createElement('button');
+                        saveBtn.textContent = 'Save Round Results';
+                        saveBtn.className = 'update-btn';
+                        saveBtn.addEventListener('click', () => {
+                            renderGroupStandingsUpToRound('B', Number(round));
+                            showNotification('Round saved. Standings updated below.', 'success');
+                        });
+                        fixturesContainer.appendChild(saveBtn);
+                        const standBox = document.createElement('div');
+                        standBox.id = `standings-B-${round}`;
+                        fixturesContainer.appendChild(standBox);
                     });
+
+                    // After final round, prompt to draw KO stage if multi-group
+                    const finalPrompt = document.createElement('button');
+                    finalPrompt.textContent = 'Confirm Results and Draw KO Stage?';
+                    finalPrompt.className = 'update-btn';
+                    finalPrompt.addEventListener('click', () => {
+                        drawKOFromGroupStandings();
+                    });
+                    fixturesContainer.appendChild(finalPrompt);
                 }
             }
         }
@@ -1394,9 +2089,125 @@
                 roundHeader.textContent = roundName;
                 fixturesContainer.appendChild(roundHeader);
                 
-                const roundTable = createKnockoutFixtureTable(rounds[roundName]);
+                const roundTable = createKnockoutFixtureTable(rounds[roundName].filter(f => !f.isBye));
                 fixturesContainer.appendChild(roundTable);
+
+                const confirmBtn = document.createElement('button');
+                confirmBtn.textContent = 'Confirm Results and Draw Next Round?';
+                confirmBtn.className = 'update-btn';
+                confirmBtn.addEventListener('click', () => advanceKnockoutRound(roundName));
+                fixturesContainer.appendChild(confirmBtn);
             });
+        }
+
+        function renderGroupStandingsUpToRound(groupName, maxRound) {
+            const target = document.getElementById(`standings-${groupName}-${maxRound}`);
+            if (!target) return;
+            // Compute stats up to given round
+            const fixtures = (tournamentData.fixtures || []).filter(f => f.group === groupName && !f.note && (f.gameRound||1) <= maxRound);
+            const stats = {};
+            const ensure = (p) => { if (!stats[p]) stats[p] = { P:0,W:0,L:0,Pts:0,LD:0 }; };
+            fixtures.forEach(f => {
+                ensure(f.player1); ensure(f.player2);
+                if (typeof f.score1 === 'number' && typeof f.score2 === 'number') {
+                    stats[f.player1].P++; stats[f.player2].P++;
+                    stats[f.player1].LD += (f.score1 - f.score2);
+                    stats[f.player2].LD += (f.score2 - f.score1);
+                    if (f.score1 > f.score2) { stats[f.player1].W++; stats[f.player2].L++; stats[f.player1].Pts += 2; }
+                    else if (f.score2 > f.score1) { stats[f.player2].W++; stats[f.player1].L++; stats[f.player2].Pts += 2; }
+                }
+            });
+            target.innerHTML = '';
+            const card = document.createElement('div'); card.className = 'option-card';
+            const h = document.createElement('h3'); h.textContent = `Standings (Group ${groupName}, up to Round ${maxRound})`; card.appendChild(h);
+            const table = document.createElement('table'); table.className = 'fixture-table';
+            const thead = document.createElement('thead'); const hr = document.createElement('tr');
+            ['Player','P','W','L','Pts','Leg Diff'].forEach(t => { const th = document.createElement('th'); th.textContent = t; hr.appendChild(th); }); thead.appendChild(hr);
+            table.appendChild(thead);
+            const tbody = document.createElement('tbody');
+            Object.keys(stats).sort((a,b) => {
+                if (stats[b].Pts !== stats[a].Pts) return stats[b].Pts - stats[a].Pts;
+                if (stats[b].LD !== stats[a].LD) return stats[b].LD - stats[a].LD;
+                return a.localeCompare(b);
+            }).forEach(player => {
+                const tr = document.createElement('tr'); const s = stats[player];
+                [player, s.P, s.W, s.L, s.Pts, (s.LD>0?`+${s.LD}`:s.LD)].forEach(val => { const td = document.createElement('td'); td.textContent = String(val); tr.appendChild(td); });
+                tbody.appendChild(tr);
+            });
+            table.appendChild(tbody); card.appendChild(table); target.appendChild(card);
+        }
+
+        function advanceKnockoutRound(roundName) {
+            const currentFixtures = (tournamentData.fixtures || []).filter(f => f.group === roundName && !f.isBye);
+            if (currentFixtures.length === 0) { showNotification('No fixtures to advance in this round.', 'info'); return; }
+            // Ensure all scores entered
+            const incomplete = currentFixtures.some(f => typeof f.score1 !== 'number' || typeof f.score2 !== 'number');
+            if (incomplete) { showNotification('Please enter results for all matches in this round.', 'error'); return; }
+            // Determine winners per match order
+            const winners = currentFixtures.map(f => (f.score1 > f.score2) ? f.player1 : f.player2);
+            const roundNumber = currentFixtures[0].round; // numeric round index from generator
+            const nextRoundNumber = roundNumber + 1;
+            const nextFixtures = (tournamentData.fixtures || []).filter(f => f.round === nextRoundNumber);
+            if (nextFixtures.length === 0) { showNotification('This was the final round. Tourney complete!', 'success'); return; }
+            // Fill placeholders matching Winner R{roundNumber} M{n}
+            let wIdx = 0;
+            nextFixtures.forEach(f => {
+                if (typeof f.player1 === 'string' && f.player1.startsWith(`Winner R${roundNumber}`)) { f.player1 = winners[wIdx++]; }
+                if (typeof f.player2 === 'string' && f.player2.startsWith(`Winner R${roundNumber}`)) { f.player2 = winners[wIdx++]; }
+                f.score1 = null; f.score2 = null; // reset scores for new fixtures
+            });
+            displayFixtures();
+            showNotification('Next round drawn from winners!', 'success');
+        }
+
+        function drawKOFromGroupStandings() {
+            // Build qualifiers list from group standings using tournamentData.groupQualifiersPerGroup and groupBestThirdCount
+            const groups = ['A','B','C','D'].filter(g => (tournamentData.groupSizes||[]).length >= (g.charCodeAt(0)-65+1));
+            const groupStats = {};
+            groups.forEach(g => {
+                const fixtures = (tournamentData.fixtures||[]).filter(f => f.group===g && !f.note);
+                const stats = {};
+                const ensure=(p)=>{ if(!stats[p]) stats[p]={P:0,W:0,L:0,Pts:0,LD:0}; };
+                fixtures.forEach(f=>{ ensure(f.player1); ensure(f.player2); if(typeof f.score1==='number'&&typeof f.score2==='number'){ stats[f.player1].P++; stats[f.player2].P++; stats[f.player1].LD+=(f.score1-f.score2); stats[f.player2].LD+=(f.score2-f.score1); if(f.score1>f.score2){ stats[f.player1].W++; stats[f.player2].L++; stats[f.player1].Pts+=2; } else { stats[f.player2].W++; stats[f.player1].L++; stats[f.player2].Pts+=2; } } });
+                groupStats[g] = Object.keys(stats).sort((a,b)=>{ if(stats[b].Pts!==stats[a].Pts) return stats[b].Pts-stats[a].Pts; if(stats[b].LD!==stats[a].LD) return stats[b].LD-stats[a].LD; return a.localeCompare(b); });
+            });
+            const qualPerGroup = tournamentData.groupQualifiersPerGroup || [];
+            let qualifiers = [];
+            groups.forEach((g,idx)=>{
+                const take = qualPerGroup[idx] || 1;
+                qualifiers.push(...groupStats[g].slice(0, take));
+            });
+            const thirdCount = tournamentData.groupBestThirdCount || 0;
+            if (thirdCount > 0) {
+                // Collect third places across groups
+                let thirds = groups.map((g,idx)=>({ player: groupStats[g][(qualPerGroup[idx]||1)], g }));
+                // Simple tie-break on leg diff where available
+                thirds = thirds.filter(t=>t.player).slice(0, thirdCount);
+                qualifiers.push(...thirds.map(t=>t.player));
+            }
+            // Generate KO fixtures from qualifiers
+            const seeded = qualifiers.slice();
+            // Pair sequentially
+            const fixtures = [];
+            let roundLabel = seeded.length === 8 ? 'Quarter Final' : 'Semi Final';
+            let match = 1;
+            for (let i=0;i<seeded.length;i+=2) {
+                fixtures.push({ player1: seeded[i], player2: seeded[i+1], score1:null, score2:null, group: roundLabel, round:1, match:match++, isBye:false });
+            }
+            // Add placeholders for later rounds
+            const totalRounds = seeded.length===8?3:2;
+            for (let r=2;r<=totalRounds;r++) {
+                const remaining = seeded.length/(2**r);
+                let label = r===totalRounds ? 'Final' : (seeded.length===8 && r===totalRounds-1 ? 'Semi Final' : `Round ${r}`);
+                let m=1;
+                for (let i=0;i<remaining;i++) {
+                    fixtures.push({ player1: `Winner R${r-1} M${i*2+1}`, player2:`Winner R${r-1} M${i*2+2}`, score1:null, score2:null, group: label, round:r, match:m++, isBye:false });
+                }
+            }
+            tournamentData.tournamentStructure = 'knockout';
+            tournamentData.fixtures = fixtures;
+            displayFixtures();
+            showNotification('KO stage drawn from group standings!', 'success');
         }
         
         function createKnockoutFixtureTable(fixtures) {
@@ -1575,6 +2386,132 @@
             table.appendChild(tbody);
             return table;
         }
+
+        // Override: KO table now includes score inputs and actions
+        function createKnockoutFixtureTable(fixtures) {
+            const table = document.createElement('table');
+            table.className = 'fixture-table';
+            
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            const headers = ['Match', 'Player 1', 'Score', 'vs', 'Score', 'Player 2', 'Format', 'Action'];
+            headers.forEach(text => { const th = document.createElement('th'); th.textContent = text; headerRow.appendChild(th); });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            
+            const tbody = document.createElement('tbody');
+            (fixtures || []).filter(f => !f.isBye).forEach(fixture => {
+                const row = document.createElement('tr');
+                
+                const matchCell = document.createElement('td'); matchCell.textContent = `Match ${fixture.match}`;
+                const player1Cell = document.createElement('td'); player1Cell.textContent = fixture.player1; player1Cell.className = 'player-name';
+                const score1Cell = document.createElement('td');
+                const score1Input = document.createElement('input'); score1Input.type = 'number'; score1Input.min = '0'; score1Input.className = 'score-input'; score1Input.value = fixture.score1 !== null ? fixture.score1 : ''; score1Input.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); score1Input.dataset.player = '1'; score1Cell.appendChild(score1Input);
+                
+                const vsCell = document.createElement('td'); vsCell.textContent = 'vs'; vsCell.style.textAlign = 'center'; vsCell.className = 'vs-cell';
+                
+                const score2Cell = document.createElement('td');
+                const score2Input = document.createElement('input'); score2Input.type = 'number'; score2Input.min = '0'; score2Input.className = 'score-input'; score2Input.value = fixture.score2 !== null ? fixture.score2 : ''; score2Input.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); score2Input.dataset.player = '2'; score2Cell.appendChild(score2Input);
+                
+                const player2Cell = document.createElement('td'); player2Cell.textContent = fixture.player2; player2Cell.className = 'player-name';
+                const formatCell = document.createElement('td'); formatCell.className = 'format-cell'; formatCell.textContent = (tournamentData.scoreFormat === 1) ? 'Single' : `Best of ${tournamentData.scoreFormat}`;
+                
+                const actionCell = document.createElement('td');
+                const updateBtn = document.createElement('button'); updateBtn.textContent = 'Update'; updateBtn.className = 'update-btn'; updateBtn.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); updateBtn.addEventListener('click', updateFixtureResult);
+                const clearBtn = document.createElement('button'); clearBtn.textContent = 'Clear'; clearBtn.className = 'clear-btn'; clearBtn.dataset.fixtureIndex = tournamentData.fixtures.indexOf(fixture); clearBtn.addEventListener('click', clearFixtureResult);
+                actionCell.appendChild(updateBtn); actionCell.appendChild(document.createElement('br')); actionCell.appendChild(clearBtn);
+                
+                row.appendChild(matchCell);
+                row.appendChild(player1Cell);
+                row.appendChild(score1Cell);
+                row.appendChild(vsCell);
+                row.appendChild(score2Cell);
+                row.appendChild(player2Cell);
+                row.appendChild(formatCell);
+                row.appendChild(actionCell);
+                tbody.appendChild(row);
+            });
+            
+            table.appendChild(tbody);
+            return table;
+        }
+
+        // Render standings: KO bracket or group/single tables
+        function renderStandings() {
+            const container = document.getElementById('standings-container');
+            if (!container) return;
+            container.innerHTML = '';
+            const isKO = tournamentData.tournamentStructure === 'knockout';
+            const subtitle = document.getElementById('standings-subtitle');
+            if (subtitle) subtitle.textContent = isKO ? 'Knockout Bracket' : 'Played / Won / Lost / Points (2 per win)';
+
+            if (isKO) {
+                const rounds = {};
+                (tournamentData.fixtures || []).forEach(f => {
+                    const key = f.group || 'Round';
+                    if (!rounds[key]) rounds[key] = [];
+                    rounds[key].push(f);
+                });
+                Object.keys(rounds).forEach(roundName => {
+                    const card = document.createElement('div'); card.className = 'option-card';
+                    const h = document.createElement('h3'); h.textContent = roundName; card.appendChild(h);
+                    const list = document.createElement('div');
+                    rounds[roundName].forEach(f => {
+                        const row = document.createElement('div'); row.className = 'favourite-item';
+                        const s1 = (f.score1 !== null && f.score1 !== undefined) ? f.score1 : '-';
+                        const s2 = (f.score2 !== null && f.score2 !== undefined) ? f.score2 : '-';
+                        row.textContent = `${f.player1} ${s1} – ${s2} ${f.player2}`;
+                        list.appendChild(row);
+                    });
+                    card.appendChild(list);
+                    container.appendChild(card);
+                });
+                return;
+            }
+
+            // Groups or single table
+            const fixtures = (tournamentData.fixtures || []).filter(f => !f.note);
+            const groups = {};
+            fixtures.forEach(f => {
+                const g = f.group || 'Table';
+                if (!groups[g]) groups[g] = [];
+                groups[g].push(f);
+            });
+            Object.keys(groups).forEach(gname => {
+                const stats = {};
+                function ensure(player) { if (!stats[player]) stats[player] = { P:0, W:0, L:0, Pts:0, LD:0 }; }
+                groups[gname].forEach(f => {
+                    ensure(f.player1); ensure(f.player2);
+                    if (typeof f.score1 === 'number' && typeof f.score2 === 'number') {
+                        stats[f.player1].P++; stats[f.player2].P++;
+                        stats[f.player1].LD += (f.score1 - f.score2);
+                        stats[f.player2].LD += (f.score2 - f.score1);
+                        if (f.score1 > f.score2) { stats[f.player1].W++; stats[f.player2].L++; stats[f.player1].Pts += 2; }
+                        else if (f.score2 > f.score1) { stats[f.player2].W++; stats[f.player1].L++; stats[f.player2].Pts += 2; }
+                    }
+                });
+                const card = document.createElement('div'); card.className = 'option-card';
+                const h = document.createElement('h3'); h.textContent = gname === 'Table' ? 'Standings' : `Group ${gname}`; card.appendChild(h);
+                const table = document.createElement('table'); table.className = 'fixture-table';
+                const thead = document.createElement('thead'); const hr = document.createElement('tr');
+                ['Player','P','W','L','Pts','Leg Diff'].forEach(t => { const th = document.createElement('th'); th.textContent = t; hr.appendChild(th); }); thead.appendChild(hr);
+                table.appendChild(thead);
+                const tbody = document.createElement('tbody');
+                Object.keys(stats).sort((a,b) => {
+                    if (stats[b].Pts !== stats[a].Pts) return stats[b].Pts - stats[a].Pts;
+                    if (stats[b].LD !== stats[a].LD) return stats[b].LD - stats[a].LD;
+                    return a.localeCompare(b);
+                }).forEach(player => {
+                    const tr = document.createElement('tr');
+                    const s = stats[player];
+                    [player, s.P, s.W, s.L, s.Pts, (s.LD>0?`+${s.LD}`:s.LD)].forEach(val => { const td = document.createElement('td'); td.textContent = String(val); tr.appendChild(td); });
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+                card.appendChild(table);
+                container.appendChild(card);
+            });
+        }
         
         // Function to update fixture result
         function updateFixtureResult(event) {
@@ -1585,8 +2522,28 @@
             const score1Input = row.querySelector('input[data-player="1"]');
             const score2Input = row.querySelector('input[data-player="2"]');
             
-            const score1 = parseInt(score1Input.value) || 0;
-            const score2 = parseInt(score2Input.value) || 0;
+            const score1 = Number(score1Input.value);
+            const score2 = Number(score2Input.value);
+            if (Number.isNaN(score1) || Number.isNaN(score2)) {
+                showNotification('Please enter scores for both players', 'error');
+                return;
+            }
+            if (score1 < 0 || score2 < 0) {
+                showNotification('Scores must be non-negative', 'error');
+                return;
+            }
+            if (tournamentData.scoreFormat === 1) {
+                const validSingle = (score1 === 1 && score2 === 0) || (score1 === 0 && score2 === 1);
+                if (!validSingle) {
+                    showNotification('Single leg: enter 1–0 or 0–1', 'error');
+                    return;
+                }
+            } else {
+                if (score1 === score2) {
+                    showNotification('Best-of: scores cannot be equal', 'error');
+                    return;
+                }
+            }
             
             // Update the fixture data
             fixture.score1 = score1;
@@ -1598,10 +2555,8 @@
             // Show success message
             showNotification('Result updated successfully!', 'success');
             
-            // Update standings if in group stage
-            if (tournamentData.tournamentStructure !== 'knockout') {
-                updateStandings();
-            }
+            // Update standings view
+            renderStandings();
         }
         
         // Function to clear fixture result
@@ -1619,10 +2574,8 @@
             // Show notification
             showNotification('Result cleared', 'info');
             
-            // Update standings if in group stage
-            if (tournamentData.tournamentStructure !== 'knockout') {
-                updateStandings();
-            }
+            // Update standings view
+            renderStandings();
         }
         
         // Function to show notifications
@@ -1661,30 +2614,16 @@
             }, 3000);
         }
         
+        // Fixtures back button: go to previous page in sequence
         document.getElementById('fixtures-back').addEventListener('click', function() {
-            showScreen('player-names-screen');
+            goBack();
         });
         
         document.getElementById('start-tournament').addEventListener('click', function() {
             alert('Play Your Fixtures – tracking and standings coming up next.');
         });
         
-        // Number Selector Event Listeners
-        document.getElementById('playerCountUp').addEventListener('click', function() {
-            const currentValue = parseInt(document.getElementById('playerCountDisplay').textContent);
-            if (currentValue < 16) {
-                document.getElementById('playerCountDisplay').textContent = currentValue + 1;
-                tournamentData.playerCount = currentValue + 1;
-            }
-        });
-        
-        document.getElementById('playerCountDown').addEventListener('click', function() {
-            const currentValue = parseInt(document.getElementById('playerCountDisplay').textContent);
-            if (currentValue > 3) {
-                document.getElementById('playerCountDisplay').textContent = currentValue - 1;
-                tournamentData.playerCount = currentValue - 1;
-            }
-        });
+        // Legacy player count controls removed with old screen
         
         document.getElementById('legsCountUp').addEventListener('click', function() {
             const currentValue = parseInt(document.getElementById('legsCountDisplay').textContent);
@@ -1715,10 +2654,7 @@
             tournamentData.gamesPerPlayer = next;
         });
 
-        // Settings placeholder
-        document.getElementById('open-settings').addEventListener('click', function() {
-            alert('Settings coming soon: Save Settings, Player Profiles, Formats, Defaults');
-        });
+        // Settings placeholder removed; access settings via Basics/Settings button
 
         // Keep prize pool synced with player count or entry fee changes
         function updatePrizePoolDisplay() {
@@ -1731,14 +2667,7 @@
         if (entryFeeInput) {
             entryFeeInput.addEventListener('input', updatePrizePoolDisplay);
         }
-        // Adjust existing player count increment/decrement to also update prize pool
-        const _origPCUp = document.getElementById('playerCountUp').onclick;
-        document.getElementById('playerCountUp').addEventListener('click', function() {
-            updatePrizePoolDisplay();
-        });
-        document.getElementById('playerCountDown').addEventListener('click', function() {
-            updatePrizePoolDisplay();
-        });
+        // Prize pool updates continue to react to entry fee changes
 
         // Save Options: wire create-tourney-now and adjust save-later
         document.getElementById('create-tourney-now').addEventListener('click', function() {
@@ -1754,11 +2683,419 @@
         }
         // Remove any stale listeners referencing non-existent save-options-next
         
-        // Initialize with default values
-        document.getElementById('playerCountDisplay').textContent = tournamentData.playerCount;
+        // Subpage wiring for Settings
+        addClick('settings-presets', () => showScreen('settings-presets-screen'));
+        addClick('settings-defaults', () => showScreen('settings-defaults-screen'));
+        addClick('settings-profiles', () => showScreen('settings-profiles-screen'));
+        addClick('settings-presets-back', () => goBack());
+        addClick('settings-defaults-back', () => goBack());
+        addClick('settings-profiles-back', () => goBack());
+        // Subpage wiring for Popular/Last
+        addClick('card-last-used', () => showScreen('last-used-screen'));
+        addClick('card-popular-presets', () => showScreen('popular-presets-screen'));
+        addClick('last-used-back', () => goBack());
+        addClick('popular-presets-back', () => goBack());
+        // Subpage wiring for Saved
+        addClick('card-saved-tourneys', () => showScreen('saved-tourneys-screen'));
+        addClick('card-saved-formats', () => showScreen('saved-formats-screen'));
+        addClick('saved-tourneys-back', () => goBack());
+        addClick('saved-formats-back', () => goBack());
+        // Subpage wiring for Load/Save Field
+        addClick('card-load-field-preset', () => showScreen('load-field-preset-screen'));
+        addClick('card-load-field-file', () => showScreen('load-field-file-screen'));
+        addClick('load-field-preset-back', () => goBack());
+        addClick('load-field-file-back', () => goBack());
+        addClick('card-save-field-name', () => showScreen('save-field-name-screen'));
+        addClick('card-save-field-export', () => showScreen('save-field-export-screen'));
+        addClick('save-field-name-back', () => goBack());
+        addClick('save-field-export-back', () => goBack());
+        // Subpage wiring for Load/Last Tourney
+        addClick('card-load-tourney-favourites', () => showScreen('load-tourney-favourites-screen'));
+        addClick('card-load-tourney-file', () => showScreen('load-tourney-file-screen'));
+        addClick('load-tourney-favourites-back', () => goBack());
+        addClick('load-tourney-file-back', () => goBack());
+        addClick('card-last-tourney-resume', () => showScreen('last-tourney-resume-screen'));
+        addClick('card-last-tourney-review', () => showScreen('last-tourney-review-screen'));
+        addClick('last-tourney-resume-back', () => goBack());
+        addClick('last-tourney-review-back', () => goBack());
+        // Custom two-group split: show screen when selecting Multi Group and 10+
+        const structureOptionsEl = document.getElementById('structure-options');
+        if (structureOptionsEl) {
+            structureOptionsEl.addEventListener('click', (e) => {
+                const card = e.target.closest('.option-card');
+                if (!card) return;
+                const val = card.getAttribute('data-value');
+                if (val === 'two' && tournamentData.playerCount >= 10) {
+                    const minA = 3;
+                    const maxA = Math.max(3, tournamentData.playerCount - 3);
+                    const defaultA = Math.ceil(tournamentData.playerCount / 2);
+                    const input = document.getElementById('groupAInput');
+                    if (input) {
+                        input.min = String(minA);
+                        input.max = String(maxA);
+                        input.value = String(Math.min(Math.max(defaultA, minA), maxA));
+                        const aVal = parseInt(input.value, 10);
+                        const bVal = tournamentData.playerCount - aVal;
+                        const preview = document.getElementById('groupSplitPreview');
+                        if (preview) preview.textContent = `Group A: ${aVal}, Group B: ${bVal}`;
+                    }
+                    showScreen('two-group-custom-screen');
+                }
+            });
+        }
+        // Two-group custom screen wiring
+        addClick('two-group-custom-back', () => goBack());
+        const groupAInputEl = document.getElementById('groupAInput');
+        if (groupAInputEl) {
+            groupAInputEl.addEventListener('input', () => {
+                const aVal = parseInt(groupAInputEl.value, 10) || 0;
+                const total = tournamentData.playerCount || 0;
+                const minA = 3;
+                const maxA = Math.max(3, total - 3);
+                const clamped = Math.min(Math.max(aVal, minA), maxA);
+                if (String(clamped) !== groupAInputEl.value) groupAInputEl.value = String(clamped);
+                const bVal = total - clamped;
+                const preview = document.getElementById('groupSplitPreview');
+                if (preview) preview.textContent = `Group A: ${clamped}, Group B: ${bVal}`;
+            });
+        }
+        addClick('apply-two-group-custom', () => {
+            const aVal = parseInt(document.getElementById('groupAInput').value, 10) || 0;
+            const total = tournamentData.playerCount || 0;
+            const minA = 3;
+            const maxA = Math.max(3, total - 3);
+            const clamped = Math.min(Math.max(aVal, minA), maxA);
+            tournamentData.twoGroupCustomA = clamped;
+            generatePlayerNameInputs();
+            showScreen('player-names-screen');
+        });
+
+        // Initialize with default values (legacy Player Count element removed)
         document.getElementById('legsCountDisplay').textContent = tournamentData.scoreFormat;
         const roundsDisp = document.getElementById('roundsDisplay');
         if (roundsDisp) roundsDisp.textContent = tournamentData.gamesPerPlayer;
+
+        // === New Combined Basics Screen Wiring ===
+        (function initBasicsScreen() {
+            const basicsPlayersDisplay = document.getElementById('basicsPlayersDisplay');
+            const basicsLegsDisplay = document.getElementById('basicsLegsDisplay');
+            const basicsRoundsDisplay = document.getElementById('basicsRoundsDisplay');
+            if (!basicsPlayersDisplay || !basicsLegsDisplay || !basicsRoundsDisplay) return;
+
+            basicsPlayersDisplay.textContent = tournamentData.playerCount;
+            basicsLegsDisplay.textContent = tournamentData.scoreFormat;
+            basicsRoundsDisplay.textContent = tournamentData.gamesPerPlayer;
+
+            addClick('basicsPlayersUp', () => {
+                const val = Math.min(16, (parseInt(basicsPlayersDisplay.textContent) || tournamentData.playerCount) + 1);
+                basicsPlayersDisplay.textContent = val;
+                tournamentData.playerCount = val;
+            });
+            addClick('basicsPlayersDown', () => {
+                const val = Math.max(3, (parseInt(basicsPlayersDisplay.textContent) || tournamentData.playerCount) - 1);
+                basicsPlayersDisplay.textContent = val;
+                tournamentData.playerCount = val;
+            });
+            addClick('basicsLegsUp', () => {
+                const cur = parseInt(basicsLegsDisplay.textContent) || tournamentData.scoreFormat;
+                const val = Math.min(15, cur + 2);
+                basicsLegsDisplay.textContent = val;
+                tournamentData.scoreFormat = val;
+            });
+            addClick('basicsLegsDown', () => {
+                const cur = parseInt(basicsLegsDisplay.textContent) || tournamentData.scoreFormat;
+                const val = Math.max(1, cur - 2);
+                basicsLegsDisplay.textContent = val;
+                tournamentData.scoreFormat = val;
+            });
+            addClick('basicsRoundsUp', () => {
+                const cur = parseInt(basicsRoundsDisplay.textContent) || tournamentData.gamesPerPlayer;
+                const val = cur >= 2 ? 2 : cur + 1;
+                basicsRoundsDisplay.textContent = val;
+                tournamentData.gamesPerPlayer = val;
+            });
+            addClick('basicsRoundsDown', () => {
+                const cur = parseInt(basicsRoundsDisplay.textContent) || tournamentData.gamesPerPlayer;
+                const val = cur <= 1 ? 1 : cur - 1;
+                basicsRoundsDisplay.textContent = val;
+                tournamentData.gamesPerPlayer = val;
+            });
+            addClick('basics-save-config', () => {
+                // Save current config as a quick favourite
+                saveFavourite();
+                renderFavourites();
+                updateSaveSummary();
+                // brief visual feedback
+                alert('Current configuration saved to Favourites');
+            });
+            addClick('basics-settings', () => showScreen('settings-screen'));
+            addClick('basics-load-config', () => showScreen('save-options-screen'));
+            addClick('basics-next', () => {
+                // New flow: Welcome -> Choose
+                generateTournamentStructureOptions();
+                showScreen('tournament-structure-screen');
+            });
+
+            // Swap among Players / Legs / Rounds with numbered tabs
+            const tabs = {
+                players: document.getElementById('tab-players'),
+                legs: document.getElementById('tab-legs'),
+                rounds: document.getElementById('tab-rounds')
+            };
+            const cards = {
+                players: document.getElementById('card-players'),
+                legs: document.getElementById('card-legs'),
+                rounds: document.getElementById('card-rounds')
+            };
+            function setActive(which) {
+                // Update tabs visual
+                Object.keys(tabs).forEach(k => {
+                    if (tabs[k]) tabs[k].classList.toggle('blue', k === which);
+                });
+                // Show the selected card
+                Object.keys(cards).forEach(k => {
+                    if (cards[k]) cards[k].classList.toggle('hidden', k !== which);
+                });
+            }
+            if (tabs.players && tabs.legs && tabs.rounds) {
+                tabs.players.addEventListener('click', () => setActive('players'));
+                tabs.legs.addEventListener('click', () => setActive('legs'));
+                tabs.rounds.addEventListener('click', () => setActive('rounds'));
+                setActive('players');
+            }
+        })();
+
+        // Override Player Names nav for new flow
+        (function overrideNamesNav() {
+            const back = document.getElementById('player-names-back');
+            // New flow: Players back to Choose
+            if (back) back.onclick = () => showScreen('tournament-structure-screen');
+            const next = document.getElementById('player-names-next');
+            if (next) next.onclick = function() {
+                // Collect player names
+                tournamentData.playerNames = [];
+                let allNamesEntered = true;
+                for (let i = 0; i < tournamentData.playerCount; i++) {
+                    const playerName = document.getElementById(`player-${i}`).value.trim();
+                    if (!playerName) { allNamesEntered = false; alert(`Please enter a name for Player ${i + 1}`); break; }
+                    tournamentData.playerNames.push(playerName);
+                }
+                if (allNamesEntered) {
+                    if (tournamentData.favouriteSlot) {
+                        const idx = tournamentData.favouriteSlot - 1;
+                        tournamentData.favouritePlayer = tournamentData.playerNames[idx] || '';
+                    }
+                    if (tournamentData.darkHorseSlot) {
+                        const idx2 = tournamentData.darkHorseSlot - 1;
+                        tournamentData.darkHorsePlayer = tournamentData.playerNames[idx2] || '';
+                    }
+                    // New flow: Players -> Edit
+                    populateEditTourneyFields();
+                    showScreen('edit-tourney-screen');
+                }
+            };
+        })();
+
+        // Override Tournament Structure next to go to Edit screen
+        (function overrideStructureNext() {
+            const btn = document.getElementById('tournament-structure-next');
+            if (btn) btn.onclick = function() {
+                if (!tournamentData.tournamentStructure) { alert('Please select a tournament structure'); return; }
+                // New flow: Choose -> Players
+                generatePlayerNameInputs();
+                showScreen('player-names-screen');
+            };
+        })();
+
+        // === Per-player Load/Save controls & persistence ===
+        function ensureAlertStyle() {
+            if (document.getElementById('nd-alert-style')) return;
+            const style = document.createElement('style');
+            style.id = 'nd-alert-style';
+            style.textContent = `.nav-circles .circle.attn::after{content:'•';color:#e53935;position:absolute;font-size:18px;top:-6px;right:-6px;animation:ndblink 1s infinite}.nav-circles .circle{position:relative}@keyframes ndblink{0%{opacity:.2}50%{opacity:1}100%{opacity:.2}}`;
+            document.head.appendChild(style);
+        }
+
+        function saveAllPlayerNames() {
+            const names = [];
+            for (let i = 0; i < tournamentData.playerCount; i++) {
+                const input = document.getElementById(`player-${i}`);
+                names.push((input && input.value.trim()) || '');
+            }
+            localStorage.setItem('nevdarts:players:lastCount', String(tournamentData.playerCount));
+            localStorage.setItem('nevdarts:players:names', JSON.stringify(names));
+            showNotification && showNotification('Player names saved');
+        }
+
+        function loadAllPlayerNames() {
+            const raw = localStorage.getItem('nevdarts:players:names');
+            const names = raw ? JSON.parse(raw) : [];
+            for (let i = 0; i < tournamentData.playerCount; i++) {
+                const input = document.getElementById(`player-${i}`);
+                if (input && names[i]) input.value = names[i];
+            }
+            showNotification && showNotification('Player names loaded');
+        }
+
+        function savePlayerNameSlot(i) {
+            const input = document.getElementById(`player-${i}`);
+            const val = (input && input.value.trim()) || '';
+            localStorage.setItem(`nevdarts:playerSlot_${i}`, val);
+            showNotification && showNotification(`Saved Player ${i + 1}`);
+        }
+
+        function loadPlayerNameSlot(i) {
+            const input = document.getElementById(`player-${i}`);
+            const val = localStorage.getItem(`nevdarts:playerSlot_${i}`) || '';
+            if (input && val) input.value = val;
+            showNotification && showNotification(`Loaded Player ${i + 1}`);
+        }
+
+        function setupPlayerNameControls() {
+            ensureAlertStyle();
+            const container = document.getElementById('player-names-list') || document.getElementById('player-names-container');
+            if (!container) return;
+            for (let i = 0; i < tournamentData.playerCount; i++) {
+                const input = document.getElementById(`player-${i}`);
+                if (!input) continue;
+                // Avoid duplicate buttons
+                if (document.getElementById(`player-load-${i}`)) continue;
+                const loadBtn = document.createElement('button');
+                loadBtn.id = `player-load-${i}`;
+                loadBtn.textContent = 'Load';
+                loadBtn.className = 'circle';
+                loadBtn.style.marginLeft = '8px';
+                loadBtn.addEventListener('click', () => loadPlayerNameSlot(i));
+
+                const saveBtn = document.createElement('button');
+                saveBtn.id = `player-save-${i}`;
+                saveBtn.textContent = 'Save';
+                saveBtn.className = 'circle';
+                saveBtn.style.marginLeft = '6px';
+                saveBtn.addEventListener('click', () => savePlayerNameSlot(i));
+
+                input.parentNode && input.parentNode.appendChild(loadBtn);
+                input.parentNode && input.parentNode.appendChild(saveBtn);
+            }
+
+            const saveAll = document.getElementById('player-names-save');
+            if (saveAll) saveAll.onclick = saveAllPlayerNames;
+            const loadAll = document.getElementById('player-names-load');
+            if (loadAll) loadAll.onclick = loadAllPlayerNames;
+        }
+
+        // Mark and clear standings alert on footer icons
+        let standingsDirty = false;
+        function markStandingsAlert() {
+            standingsDirty = true;
+            ensureAlertStyle();
+            document.querySelectorAll('.nav-circles .circle').forEach(el => {
+                if ((el.id || '').toLowerCase().includes('standings')) el.classList.add('attn');
+            });
+        }
+        function clearStandingsAlert() {
+            standingsDirty = false;
+            document.querySelectorAll('.nav-circles .circle.attn').forEach(el => el.classList.remove('attn'));
+        }
+
+        // Wrap updateFixtureResult to trigger prompt and alert dot
+        if (typeof updateFixtureResult === 'function') {
+            const prevUpdate = updateFixtureResult;
+            updateFixtureResult = function() {
+                const res = prevUpdate.apply(this, arguments);
+                markStandingsAlert();
+                showNotification && showNotification('Updated table available — tap Standings');
+                return res;
+            };
+        }
+
+        // Clear alert when visiting standings
+        if (typeof showScreen === 'function') {
+            const originalShowScreen = showScreen;
+            showScreen = function(id, opts) {
+                const r = originalShowScreen(id, opts);
+                if (id === 'standings-screen') clearStandingsAlert();
+                if (id === 'save-options-screen') {
+                    updateSaveSummary();
+                    renderFavourites();
+                }
+                return r;
+            };
+        }
+
+        // Show the new Basics screen on startup
+        showScreen && showScreen('basics-screen');
+
+        // Override two-group fixtures to honor custom split
+        function generateTwoGroupsFixtures() {
+            const players = tournamentData.playerNames;
+            const fixtures = [];
+
+            const minA = 3;
+            const maxA = Math.max(3, players.length - 3);
+            const customA = tournamentData.twoGroupCustomA;
+            const group1Size = customA && customA >= minA && customA <= maxA ? customA : Math.ceil(players.length / 2);
+            const group1 = players.slice(0, group1Size);
+            const group2 = players.slice(group1Size);
+
+            function generateGroupFixtures(group, groupName) {
+                const baseGroup = group.slice();
+                const evenGroup = baseGroup.length % 2 === 0 ? baseGroup.slice() : [...baseGroup, 'BYE'];
+                const n = evenGroup.length;
+                const rounds = n - 1;
+
+                let arr = evenGroup.slice();
+
+                for (let round = 1; round <= rounds; round++) {
+                    for (let i = 0; i < n / 2; i++) {
+                        const p1 = arr[i];
+                        const p2 = arr[n - 1 - i];
+
+                        if (p1 === 'BYE' || p2 === 'BYE') {
+                            const realPlayer = p1 === 'BYE' ? p2 : p1;
+                            fixtures.push({
+                                player1: realPlayer,
+                                player2: p1 === 'BYE' ? '(BYE)' : '(BYE)',
+                                score1: null,
+                                score2: null,
+                                group: groupName,
+                                gameRound: round,
+                                note: `${realPlayer} has a bye`
+                            });
+                        } else {
+                            fixtures.push({
+                                player1: p1,
+                                player2: p2,
+                                score1: null,
+                                score2: null,
+                                group: groupName,
+                                gameRound: round
+                            });
+                        }
+                    }
+                    const last = arr.pop();
+                    arr.splice(1, 0, last);
+                }
+
+                if (tournamentData.gamesPerPlayer === 2) {
+                    const groupFixtures = fixtures.filter(f => f.group === groupName);
+                    const reverseFixtures = groupFixtures.map(fixture => ({
+                        player1: fixture.player2,
+                        player2: fixture.player1,
+                        score1: null,
+                        score2: null,
+                        group: groupName,
+                        gameRound: fixture.gameRound + rounds
+                    }));
+                    fixtures.push(...reverseFixtures);
+                }
+            }
+
+            generateGroupFixtures(group1, 'A');
+            generateGroupFixtures(group2, 'B');
+
+            tournamentData.fixtures = fixtures;
+        }
 
         // Register service worker for installable PWA and offline caching
         if ('serviceWorker' in navigator) {
@@ -1771,5 +3108,16 @@
             });
         }
     </script>
-</body>
-</html>
+    <!-- Names Modal (reused for dropdowns and multi-select) -->
+    <div class="modal-backdrop" id="names-modal">
+      <div class="modal">
+        <h3 id="names-modal-title">Players</h3>
+        <div id="names-modal-content"></div>
+        <div class="modal-actions">
+          <button id="names-modal-cancel">Cancel</button>
+          <button id="names-modal-save">Back & Save</button>
+        </div>
+      </div>
+    </div>
+ </body>
+ </html>
