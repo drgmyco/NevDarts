@@ -554,7 +554,6 @@
 <body>
     <div class="logo">
         <h1>CU Next Tuesday</h1>
-        <p>Mini Darts Tourney</p>
         <p class="tagline">The absolute chief of mini darts tourney fixture generators!!</p>
     </div>
     
@@ -572,7 +571,7 @@
                         <div class="number-column">
                             <div class="arrow" id="basicsPlayersUp">▲</div>
                         </div>
-                        <div class="number-display" id="basicsPlayersDisplay">8</div>
+                        <div class="number-display" id="basicsPlayersDisplay">3</div>
                         <div class="number-column">
                             <div class="arrow" id="basicsPlayersDown">▼</div>
                         </div>
@@ -585,7 +584,7 @@
                         <div class="number-column">
                             <div class="arrow" id="basicsLegsUp">▲</div>
                         </div>
-                        <div class="number-display" id="basicsLegsDisplay">5</div>
+                        <div class="number-display" id="basicsLegsDisplay">1</div>
                         <div class="number-column">
                             <div class="arrow" id="basicsLegsDown">▼</div>
                         </div>
@@ -605,7 +604,7 @@
                     </div>
                 </div>
                 <!-- Server & Preview Helper -->
-                <div class="option-card basics-card" id="server-card">
+                <div class="option-card basics-card" id="server-card" style="display:none;">
                     <h3>Server & Preview</h3>
                     <p id="server-status">Preview status: detecting…</p>
                     <div class="server-actions" style="display:flex; gap:8px;">
@@ -654,7 +653,7 @@
                     <div class="nav-circle back" id="score-format-back" title="Back">➜</div>
                     <div class="number-column">
                         <div class="arrow" id="legsCountUp">▲</div>
-                        <div class="number-display" id="legsCountDisplay">5</div>
+                        <div class="number-display" id="legsCountDisplay">1</div>
                         <div class="arrow" id="legsCountDown">▼</div>
                     </div>
                     <div class="nav-circle go" id="score-format-next" title="Go">➜</div>
@@ -727,7 +726,7 @@
                 <input type="number" id="winner-prize" placeholder="e.g. 20" min="0" step="1" />
             </div>
             <div class="form-group">
-                <label for="runnerup-prize">RU Prize £</label>
+                <label for="runnerup-prize">Runner Up Prize</label>
                 <input type="number" id="runnerup-prize" placeholder="e.g. 20" min="0" step="1" />
             </div>
             <div class="form-group">
@@ -794,7 +793,7 @@
         
         <!-- Fixtures Screen -->
         <div class="screen" id="fixtures-screen">
-            <h2>Tournament Fixtures</h2>
+            <h2>Your CU N T Fixtures!</h2>
             <div id="fixtures-container">
                 <!-- Will be populated by JavaScript -->
             </div>
@@ -830,9 +829,13 @@
         </div>
 
         <!-- Saved Results Library Screen -->
-        <div class="screen" id="settings-library-screen" style="display:none;">
+        <div class="screen" id="settings-library-screen">
             <h2>Saved Results Library</h2>
             <div class="subtitle title-match">Previous tourneys and summaries</div>
+            <div class="options centered" style="display:flex; flex-direction:column; gap:12px; align-items:stretch;">
+                <div class="option-card" id="settings-library-view-last"><h3>View Last Saved</h3><p>Open the most recent saved tourney</p></div>
+                <div class="option-card" id="settings-library-clear"><h3>Clear Library</h3><p>Delete all saved results</p></div>
+            </div>
             <div id="saved-results-container" class="options centered"></div>
             <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="settings-library-back" title="Back">➜</div></div></div>
         </div>
@@ -850,12 +853,40 @@
         <div class="screen" id="settings-defaults-screen">
             <h2>Defaults</h2>
             <div class="subtitle title-match">Choose default players, legs, and rounds</div>
-            <div class="options centered">
-                <div class="option-card"><h3>Players</h3><p>Default: 8</p></div>
-                <div class="option-card"><h3>Legs</h3><p>Default: Best of 5</p></div>
-                <div class="option-card"><h3>Rounds</h3><p>Default: 1</p></div>
+            <div class="options centered" style="display:flex; flex-direction:column; gap:12px; align-items:stretch;">
+                <div class="option-card basics-card">
+                    <label>Number of Players</label>
+                    <div class="number-selector">
+                        <div class="number-column"><div class="arrow" id="defaultsPlayersUp">▲</div></div>
+                        <div class="number-display" id="defaultsPlayersDisplay">3</div>
+                        <div class="number-column"><div class="arrow" id="defaultsPlayersDown">▼</div></div>
+                    </div>
+                </div>
+                <div class="option-card basics-card">
+                    <label>Number of Legs</label>
+                    <div class="number-selector">
+                        <div class="number-column"><div class="arrow" id="defaultsLegsUp">▲</div></div>
+                        <div class="number-display" id="defaultsLegsDisplay">1</div>
+                        <div class="number-column"><div class="arrow" id="defaultsLegsDown">▼</div></div>
+                    </div>
+                </div>
+                <div class="option-card basics-card">
+                    <label>Number of Rounds</label>
+                    <div class="number-selector">
+                        <div class="number-column"><div class="arrow" id="defaultsRoundsUp">▲</div></div>
+                        <div class="number-display" id="defaultsRoundsDisplay">1</div>
+                        <div class="number-column"><div class="arrow" id="defaultsRoundsDown">▼</div></div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group"><div class="nav-pair"><div class="nav-circle back" id="settings-defaults-back" title="Back">➜</div></div></div>
+            <div class="form-group">
+                <div class="footer-4">
+                    <div class="nav-circle nav-shortcut" id="defaults-reset" title="Reset Defaults">⬅<span class="nav-label">Reset Defaults</span></div>
+                    <div class="nav-circle back" id="settings-defaults-back" title="Back">➜<span class="nav-label">Back</span></div>
+                    <div class="nav-circle nav-primary" id="defaults-save" title="Save As Defaults">➡<span class="nav-label">Save As Defaults</span></div>
+                    <div class="nav-circle nav-shortcut" id="defaults-dummy" title=""></div>
+                </div>
+            </div>
         </div>
         <div class="screen" id="settings-profiles-screen">
             <h2>Profiles</h2>
@@ -1057,8 +1088,8 @@
     <script>
         // Tournament data object to store all selections
         const tournamentData = {
-            playerCount: 8,
-            scoreFormat: 5, // Default: Best of 5
+            playerCount: 3,
+            scoreFormat: 1, // Default: Best of 1
             gamesPerPlayer: 1, // Default: Play each player once
             tournamentStructure: null,
             playerNames: [],
@@ -1353,16 +1384,24 @@
             // Add event listeners to the options
             document.querySelectorAll('#structure-options .option-card').forEach(option => {
                 option.addEventListener('click', function() {
-                    // Remove selected class from all options
                     document.querySelectorAll('#structure-options .option-card').forEach(opt => {
                         opt.classList.remove('selected');
                     });
-                    
-                    // Add selected class to clicked option
                     this.classList.add('selected');
-                    
-                    // Store the selected value
-                    tournamentData.tournamentStructure = this.getAttribute('data-value');
+                    const val = this.getAttribute('data-value');
+                    tournamentData.tournamentStructure = val;
+                    tournamentData.originalStructure = val;
+                    if (val === 'groups') {
+                        tournamentData.originalGroupSizes = Array.isArray(tournamentData.groupSizes) ? tournamentData.groupSizes.slice() : [];
+                        tournamentData.originalGroupQualifiersPerGroup = Array.isArray(tournamentData.groupQualifiersPerGroup) ? tournamentData.groupQualifiersPerGroup.slice() : [];
+                        tournamentData.originalGroupBestThirdCount = typeof tournamentData.groupBestThirdCount === 'number' ? tournamentData.groupBestThirdCount : 0;
+                        tournamentData.originalTwoGroupCustomA = typeof tournamentData.twoGroupCustomA === 'number' ? tournamentData.twoGroupCustomA : null;
+                    } else {
+                        tournamentData.originalGroupSizes = [];
+                        tournamentData.originalGroupQualifiersPerGroup = [];
+                        tournamentData.originalGroupBestThirdCount = 0;
+                        tournamentData.originalTwoGroupCustomA = null;
+                    }
                 });
             });
         }
@@ -1390,7 +1429,33 @@
 
         // Settings: open saved results library
         addClick('settings-library', () => { renderSavedResultsLibrary(); showScreen('settings-library-screen'); });
-        addClick('settings-library-back', () => showScreen('settings-screen'));
+        addClick('settings-library-back', () => goBack());
+        addClick('settings-library-view-last', () => {
+            const raw = localStorage.getItem('nevdarts:results:library');
+            const list = raw ? JSON.parse(raw) : [];
+            if (!list.length) { showNotification('No saved results found.', 'info'); return; }
+            const item = list[0];
+            const html = `
+                <div class='option-card'>
+                    <h3>${item.tournamentName||'Saved Tourney'}</h3>
+                    <p>${new Date(item.timestamp).toLocaleString()} – ${item.structure} – ${item.players.length} players</p>
+                    <ul>
+                        <li>Favourite: ${item.favourite} ${item.favouriteResult||''}</li>
+                        <li>Dark Horse: ${item.darkHorse} ${item.darkHorseResult||''}</li>
+                        <li>Most legs won: ${item.mostWon}</li>
+                        <li>Most legs lost: ${item.mostLost}</li>
+                        <li>Most leg difference: ${item.mostDiff}</li>
+                    </ul>
+                </div>`;
+            openNamesModal('Last Saved Summary', html, null);
+        });
+        addClick('settings-library-clear', () => {
+            const ok = confirm('Clear all saved results?');
+            if (!ok) return;
+            localStorage.removeItem('nevdarts:results:library');
+            renderSavedResultsLibrary();
+            showNotification('Library cleared', 'success');
+        });
 
         // Edit Your Tourney Screen logic
         function populateEditTourneyFields() {
@@ -1749,14 +1814,14 @@
                 const inner = `<p>Saved Player Names Library</p><div>${names.map(n => `<div class='pill'>${n}</div>`).join('')}</div>`;
                 openNamesModal('Save Players', inner, () => saveAllPlayerNames());
             };
-            const multiSelectBtn = document.getElementById('multi-select-players');
-            if (multiSelectBtn) multiSelectBtn.onclick = showMultiSelectModal;
-            const lastBtn = document.getElementById('load-last-tourney');
-            if (lastBtn) lastBtn.onclick = () => {
+            addClick('multi-select-players', showMultiSelectModal);
+            addClick('load-last-tourney', () => {
                 const lib = getNameLibrary();
-                const inner = `<div>${lib.last.map(n => `<div class='pill'>${n}</div>`).join('')}</div>`;
+                const inner = lib.last && lib.last.length
+                    ? `<div>${lib.last.map(n => `<div class='pill'>${n}</div>`).join('')}</div>`
+                    : `<div class='option-card'><p>No last tourney saved yet.</p></div>`;
                 openNamesModal('Load Last Tourney', inner, () => loadAllPlayerNames());
-            };
+            });
         })();
         
         // Fixtures Generation
@@ -1772,7 +1837,11 @@
             } else if (tournamentData.tournamentStructure === 'single') {
                 generateSingleGroupFixtures();
             } else {
-                generateTwoGroupsFixtures();
+                if (Array.isArray(tournamentData.groupSizes) && tournamentData.groupSizes.length > 0) {
+                    generateMultiGroupsFixtures();
+                } else {
+                    generateTwoGroupsFixtures();
+                }
             }
             
             // Display fixtures
@@ -1933,6 +2002,47 @@
             
             tournamentData.fixtures = fixtures;
         }
+
+        function generateMultiGroupsFixtures() {
+            const players = tournamentData.playerNames.slice();
+            const sizes = (tournamentData.groupSizes || []).slice();
+            const fixtures = [];
+            let offset = 0;
+            const labels = ['A','B','C','D','E','F'];
+            function rrFor(group, label){
+                const base = group.slice();
+                const even = base.length % 2 === 0 ? base.slice() : [...base, 'BYE'];
+                const n = even.length;
+                const rounds = n - 1;
+                let arr = even.slice();
+                for (let round = 1; round <= rounds; round++) {
+                    for (let i = 0; i < n / 2; i++) {
+                        const p1 = arr[i];
+                        const p2 = arr[n - 1 - i];
+                        if (p1 === 'BYE' || p2 === 'BYE') {
+                            const realPlayer = p1 === 'BYE' ? p2 : p1;
+                            fixtures.push({ player1: realPlayer, player2: p1 === 'BYE' ? '(BYE)' : '(BYE)', score1: null, score2: null, group: label, gameRound: round, note: `${realPlayer} has a bye` });
+                        } else {
+                            fixtures.push({ player1: p1, player2: p2, score1: null, score2: null, group: label, gameRound: round });
+                        }
+                    }
+                    const last = arr.pop();
+                    arr.splice(1, 0, last);
+                }
+                if (tournamentData.gamesPerPlayer === 2) {
+                    const gfix = fixtures.filter(f => f.group === label && !f.note);
+                    const reverse = gfix.map(f => ({ player1: f.player2, player2: f.player1, score1: null, score2: null, group: label, gameRound: f.gameRound + rounds }));
+                    fixtures.push(...reverse);
+                }
+            }
+            sizes.forEach((size, idx) => {
+                const label = labels[idx] || String.fromCharCode(65 + idx);
+                const slice = players.slice(offset, offset + size);
+                offset += size;
+                rrFor(slice, label);
+            });
+            tournamentData.fixtures = fixtures;
+        }
         
         function generateTwoGroupsFixtures() {
             const players = tournamentData.playerNames;
@@ -2025,96 +2135,32 @@
             if (tournamentData.tournamentStructure === 'knockout') {
                 displayKnockoutFixtures();
             } else {
-                // Group fixtures by group and game round
-                const groupA = tournamentData.fixtures.filter(fixture => fixture.group === 'A');
-                const groupB = tournamentData.fixtures.filter(fixture => fixture.group === 'B');
-                
-                // Display Group A fixtures organized by game rounds
-                if (groupA.length > 0) {
-                    const groupAHeader = document.createElement('h2');
-                    groupAHeader.textContent = 'Group A';
-                    fixturesContainer.appendChild(groupAHeader);
-                    
-                    // Group A fixtures by game round
-                    const groupARounds = {};
-                    groupA.forEach(fixture => {
-                        const roundKey = fixture.gameRound || 1;
-                        if (!groupARounds[roundKey]) {
-                            groupARounds[roundKey] = [];
-                        }
-                        groupARounds[roundKey].push(fixture);
+                const groupNames = [...new Set((tournamentData.fixtures || []).map(f => f.group))]
+                    .filter(g => /^[A-Z]$/.test(g))
+                    .sort();
+                function renderGroup(name){
+                    const header = document.createElement('h2');
+                    header.textContent = `Group ${name}`;
+                    fixturesContainer.appendChild(header);
+                    const roundsMap = {};
+                    (tournamentData.fixtures||[]).filter(f => f.group === name).forEach(f => {
+                        const rk = f.gameRound || 1; (roundsMap[rk] ||= []).push(f);
                     });
-                    
-                    // Display each game round for Group A
-                    Object.keys(groupARounds).sort((a, b) => a - b).forEach(round => {
-                        const roundHeader = document.createElement('h3');
-                        roundHeader.textContent = `Game Round ${round}`;
-                        fixturesContainer.appendChild(roundHeader);
-                        
-                        const roundTable = createFixtureTable(groupARounds[round].filter(f => !f.note));
-                        fixturesContainer.appendChild(roundTable);
-
-                        // Inline Save and standings between rounds (Group A)
-                        const saveBtn = document.createElement('button');
-                        saveBtn.textContent = 'Save Round Results';
-                        saveBtn.className = 'update-btn';
-                        saveBtn.addEventListener('click', () => {
-                            renderGroupStandingsUpToRound('A', Number(round));
-                            showNotification('Round saved. Standings updated below.', 'success');
-                        });
-                        fixturesContainer.appendChild(saveBtn);
-                        const standBox = document.createElement('div');
-                        standBox.id = `standings-A-${round}`;
-                        fixturesContainer.appendChild(standBox);
+                    Object.keys(roundsMap).sort((a,b)=>a-b).forEach(r => {
+                        const h3 = document.createElement('h3'); h3.textContent = `Game Round ${r}`; fixturesContainer.appendChild(h3);
+                        const tbl = createFixtureTable(roundsMap[r].filter(f=>!f.note)); fixturesContainer.appendChild(tbl);
+                        const save = document.createElement('button'); save.textContent='Save Round Results'; save.className='update-btn';
+                        save.addEventListener('click', ()=>{ renderGroupStandingsUpToRound(name, Number(r)); showNotification('Round saved. Standings updated below.', 'success'); });
+                        fixturesContainer.appendChild(save);
+                        const box = document.createElement('div'); box.id = `standings-${name}-${r}`; fixturesContainer.appendChild(box);
                     });
                 }
-                
-                // Display Group B fixtures organized by game rounds
-                if (groupB.length > 0) {
-                    const groupBHeader = document.createElement('h2');
-                    groupBHeader.textContent = 'Group B';
-                    fixturesContainer.appendChild(groupBHeader);
-                    
-                    // Group B fixtures by game round
-                    const groupBRounds = {};
-                    groupB.forEach(fixture => {
-                        const roundKey = fixture.gameRound || 1;
-                        if (!groupBRounds[roundKey]) {
-                            groupBRounds[roundKey] = [];
-                        }
-                        groupBRounds[roundKey].push(fixture);
-                    });
-                    
-                    // Display each game round for Group B
-                    Object.keys(groupBRounds).sort((a, b) => a - b).forEach(round => {
-                        const roundHeader = document.createElement('h3');
-                        roundHeader.textContent = `Game Round ${round}`;
-                        fixturesContainer.appendChild(roundHeader);
-                        
-                        const roundTable = createFixtureTable(groupBRounds[round].filter(f => !f.note));
-                        fixturesContainer.appendChild(roundTable);
-
-                        // Inline Save and standings between rounds (Group B)
-                        const saveBtn = document.createElement('button');
-                        saveBtn.textContent = 'Save Round Results';
-                        saveBtn.className = 'update-btn';
-                        saveBtn.addEventListener('click', () => {
-                            renderGroupStandingsUpToRound('B', Number(round));
-                            showNotification('Round saved. Standings updated below.', 'success');
-                        });
-                        fixturesContainer.appendChild(saveBtn);
-                        const standBox = document.createElement('div');
-                        standBox.id = `standings-B-${round}`;
-                        fixturesContainer.appendChild(standBox);
-                    });
-
-                    // After final round, prompt to draw KO stage if multi-group
+                groupNames.forEach(renderGroup);
+                if (groupNames.length > 0) {
                     const finalPrompt = document.createElement('button');
                     finalPrompt.textContent = 'Confirm Results and Draw KO Stage?';
                     finalPrompt.className = 'update-btn';
-                    finalPrompt.addEventListener('click', () => {
-                        drawKOFromGroupStandings();
-                    });
+                    finalPrompt.addEventListener('click', () => { drawKOFromGroupStandings(); });
                     fixturesContainer.appendChild(finalPrompt);
                 }
             }
@@ -2180,18 +2226,37 @@
             // Favourite/Dark horse summaries
             const stageFor = (player) => {
                 if (!player) return '';
-                const rounds = ['Round 1','Round 2','Round 3','Quarter Final','Semi Final','Final'];
                 const involved = (tournamentData.fixtures||[]).filter(f=>f.player1===player||f.player2===player);
                 if (involved.length===0) return 'Did not participate';
                 const final = (tournamentData.fixtures||[]).find(f=>f.group==='Final');
                 if (final && (final.player1===player||final.player2===player) && typeof final.score1==='number' && typeof final.score2==='number') {
                     if ((final.player1===player && final.score1>final.score2) || (final.player2===player && final.score2>final.score1)) return 'Champion';
-                    return 'Runner-up';
+                    // A. beaten in the Final
+                    return '…beaten in the Final – close but no cigar, you loser CU N T!!!';
                 }
-                // Find last round they played
+                // Determine last KO round label this player reached
                 let lastRound = '';
                 involved.forEach(f=>{ if (typeof f.round==='number') { lastRound = f.group; } });
-                return lastRound ? `Reached ${lastRound}` : 'Played group stage';
+                // Map to requested summaries
+                if (lastRound.includes('Semi Final')) {
+                    // C. eliminated in SF
+                    return '…eliminated in SF – more practice needed to be a serious CU N T challenger!!';
+                }
+                // B. eliminated in R16/QF
+                // Detect R16/QF from labels or generic Round numbers based on bracket size
+                const bracketSize = Math.pow(2, Math.ceil(Math.log2((tournamentData.playerNames||[]).length || 0)));
+                if (lastRound.includes('Quarter Final')) {
+                    return '…eliminated in R16/QF – can only dream of being a future CU N T contender!';
+                }
+                if (lastRound.startsWith('Round')) {
+                    // Round 1 in 8/16 brackets ⇒ QF/R16; Round 2 in 16 ⇒ QF
+                    const roundNum = parseInt(lastRound.replace(/[^0-9]/g,''),10) || 1;
+                    if (bracketSize >= 8 && (roundNum === 1 || (bracketSize >= 16 && roundNum === 2))) {
+                        return '…eliminated in R16/QF – can only dream of being a future CU N T contender!';
+                    }
+                }
+                // Group stage or earlier rounds fallback
+                return 'Played group stage';
             };
             return { stats, mostWon, mostLost, mostDiff, winner, runnerUp, favouriteResult: stageFor(tournamentData.favouritePlayer), darkHorseResult: stageFor(tournamentData.darkHorsePlayer) };
         }
@@ -2209,8 +2274,8 @@
                     <p>Commiserations ${runnerUp} — unlucky this time.</p>
                     <h4>Tourney Summary</h4>
                     <ul>
-                        <li>The pre-Tourney Favourite was ${tournamentData.favouritePlayer||'-'} who was ${summary.favouriteResult||'-'}</li>
-                        <li>The pre-Tourney DARK HORSE was ${tournamentData.darkHorsePlayer||'-'} who was ${summary.darkHorseResult||'-'}</li>
+                        <li>Favourite: ${tournamentData.favouritePlayer||'-'} ${summary.favouriteResult||''}</li>
+                        <li>Dark Horse: ${tournamentData.darkHorsePlayer||'-'} ${summary.darkHorseResult||''}</li>
                         <li>Stats – Player won most legs: ${summary.mostWon||'-'}</li>
                         <li>Stats – Player lost most legs: ${summary.mostLost||'-'}</li>
                         <li>Stats – Player most legs difference: ${summary.mostDiff||'-'}</li>
@@ -2230,11 +2295,11 @@
             container.innerHTML = list.map((item, idx) => {
                 const when = new Date(item.timestamp).toLocaleString();
                 const title = item.tournamentName || `Tourney #${idx+1}`;
-                return `<div class='option-card'><h3>${title}</h3><p>${when} – ${item.structure} – ${item.players.length} players</p><button class='update-btn' data-idx='${idx}'>View Summary</button></div>`;
+                return `<div class='option-card saved-item' data-idx='${idx}'><h3>${title}</h3><p>${when} – ${item.structure} – ${item.players.length} players</p></div>`;
             }).join('');
-            container.querySelectorAll('button.update-btn').forEach(btn => {
-                btn.addEventListener('click', (e)=>{
-                    const idx = parseInt(e.target.dataset.idx,10);
+            container.querySelectorAll('.option-card.saved-item').forEach(card => {
+                card.addEventListener('click', (e)=>{
+                    const idx = parseInt(e.currentTarget.dataset.idx,10);
                     const raw2 = localStorage.getItem('nevdarts:results:library');
                     const list2 = raw2 ? JSON.parse(raw2) : [];
                     const item = list2[idx];
@@ -2244,8 +2309,8 @@
                             <h3>${item.tournamentName||'Saved Tourney'}</h3>
                             <p>${new Date(item.timestamp).toLocaleString()} – ${item.structure} – ${item.players.length} players</p>
                             <ul>
-                                <li>Favourite: ${item.favourite} – ${item.favouriteResult}</li>
-                                <li>Dark Horse: ${item.darkHorse} – ${item.darkHorseResult}</li>
+                                <li>Favourite: ${item.favourite} ${item.favouriteResult||''}</li>
+                                <li>Dark Horse: ${item.darkHorse} ${item.darkHorseResult||''}</li>
                                 <li>Most legs won: ${item.mostWon}</li>
                                 <li>Most legs lost: ${item.mostLost}</li>
                                 <li>Most leg difference: ${item.mostDiff}</li>
@@ -2288,14 +2353,24 @@
         }
 
         function replayTournament() {
-            // Clear current results
+            const orig = tournamentData.originalStructure || tournamentData.tournamentStructure;
+            tournamentData.tournamentStructure = orig;
+            if (orig === 'groups') {
+                if (Array.isArray(tournamentData.originalGroupSizes) && tournamentData.originalGroupSizes.length > 0) {
+                    tournamentData.groupSizes = tournamentData.originalGroupSizes.slice();
+                }
+                if (Array.isArray(tournamentData.originalGroupQualifiersPerGroup)) {
+                    tournamentData.groupQualifiersPerGroup = tournamentData.originalGroupQualifiersPerGroup.slice();
+                }
+                tournamentData.groupBestThirdCount = typeof tournamentData.originalGroupBestThirdCount === 'number' ? tournamentData.originalGroupBestThirdCount : tournamentData.groupBestThirdCount;
+                tournamentData.twoGroupCustomA = typeof tournamentData.originalTwoGroupCustomA === 'number' ? tournamentData.originalTwoGroupCustomA : tournamentData.twoGroupCustomA;
+            }
             (tournamentData.fixtures||[]).forEach(f=>{ if(!f.isBye){ f.score1=null; f.score2=null; } });
-            // Reshuffle players for new draw
             const names = (tournamentData.playerNames||[]);
             for (let i = names.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [names[i], names[j]] = [names[j], names[i]]; }
-            // Regenerate fixtures keeping current structure
-            displayNotification && showNotification('Re-drawing fixtures...', 'info');
+            showNotification('Re-drawing fixtures...', 'info');
             generateFixtures();
+            showScreen('fixtures-screen');
         }
 
         // Light styling for bye rows
@@ -2825,18 +2900,17 @@
             }, 3000);
         }
         
-        // Fixtures back button: go to previous page in sequence
-        document.getElementById('fixtures-back').addEventListener('click', function() {
-            goBack();
-        });
+        // Fixtures back button: go to previous page in sequence (safe)
+        addClick('fixtures-back', () => { goBack(); });
         
-        document.getElementById('start-tournament').addEventListener('click', function() {
+        // Optional legacy button (only if present)
+        addClick('start-tournament', () => {
             alert('Play Your Fixtures – tracking and standings coming up next.');
         });
         
         // Legacy player count controls removed with old screen
         
-        document.getElementById('legsCountUp').addEventListener('click', function() {
+        addClick('legsCountUp', function() {
             const currentValue = parseInt(document.getElementById('legsCountDisplay').textContent);
             if (currentValue < 15) {
                 document.getElementById('legsCountDisplay').textContent = currentValue + 2;
@@ -2844,7 +2918,7 @@
             }
         });
         
-        document.getElementById('legsCountDown').addEventListener('click', function() {
+        addClick('legsCountDown', function() {
             const currentValue = parseInt(document.getElementById('legsCountDisplay').textContent);
             if (currentValue > 1) {
                 document.getElementById('legsCountDisplay').textContent = currentValue - 2;
@@ -2852,7 +2926,7 @@
             }
         });
         // Rounds toggle: allow 1 or 2 rounds only
-        document.getElementById('roundsUp').addEventListener('click', function() {
+        addClick('roundsUp', function() {
             const currentValue = parseInt(document.getElementById('roundsDisplay').textContent);
             const next = currentValue >= 2 ? 2 : currentValue + 1;
             document.getElementById('roundsDisplay').textContent = next;
@@ -2977,6 +3051,7 @@
             const maxA = Math.max(3, total - 3);
             const clamped = Math.min(Math.max(aVal, minA), maxA);
             tournamentData.twoGroupCustomA = clamped;
+            tournamentData.originalTwoGroupCustomA = clamped;
             generatePlayerNameInputs();
             showScreen('player-names-screen');
         });
@@ -2985,6 +3060,22 @@
         document.getElementById('legsCountDisplay').textContent = tournamentData.scoreFormat;
         const roundsDisp = document.getElementById('roundsDisplay');
         if (roundsDisp) roundsDisp.textContent = tournamentData.gamesPerPlayer;
+
+        // Persisted defaults: apply on startup if present
+        function getSavedDefaults() {
+            try {
+                const raw = localStorage.getItem('nevdarts:defaults');
+                return raw ? JSON.parse(raw) : null;
+            } catch (e) { return null; }
+        }
+        (function applyDefaultsOnStartup(){
+            const d = getSavedDefaults();
+            if (d && typeof d.players === 'number' && typeof d.legs === 'number' && typeof d.rounds === 'number') {
+                tournamentData.playerCount = d.players;
+                tournamentData.scoreFormat = d.legs;
+                tournamentData.gamesPerPlayer = d.rounds;
+            }
+        })();
 
         // === New Combined Basics Screen Wiring ===
         (function initBasicsScreen() {
@@ -3074,6 +3165,42 @@
                 tabs.rounds.addEventListener('click', () => setActive('rounds'));
                 setActive('players');
             }
+        })();
+
+        // Defaults screen wiring
+        (function initDefaultsScreen(){
+            const pDisp = document.getElementById('defaultsPlayersDisplay');
+            const lDisp = document.getElementById('defaultsLegsDisplay');
+            const rDisp = document.getElementById('defaultsRoundsDisplay');
+            if (!pDisp || !lDisp || !rDisp) return;
+            const saved = getSavedDefaults();
+            const cur = saved || { players: tournamentData.playerCount, legs: tournamentData.scoreFormat, rounds: tournamentData.gamesPerPlayer };
+            pDisp.textContent = cur.players;
+            lDisp.textContent = cur.legs;
+            rDisp.textContent = cur.rounds;
+            addClick('defaultsPlayersUp', ()=>{ const v = Math.min(16, (parseInt(pDisp.textContent)||cur.players)+1); pDisp.textContent=v; });
+            addClick('defaultsPlayersDown', ()=>{ const v = Math.max(3, (parseInt(pDisp.textContent)||cur.players)-1); pDisp.textContent=v; });
+            addClick('defaultsLegsUp', ()=>{ const v = Math.min(15, (parseInt(lDisp.textContent)||cur.legs)+2); lDisp.textContent=v; });
+            addClick('defaultsLegsDown', ()=>{ const v = Math.max(1, (parseInt(lDisp.textContent)||cur.legs)-2); lDisp.textContent=v; });
+            addClick('defaultsRoundsUp', ()=>{ const v = ((parseInt(rDisp.textContent)||cur.rounds) >= 2) ? 2 : ((parseInt(rDisp.textContent)||cur.rounds)+1); rDisp.textContent=v; });
+            addClick('defaultsRoundsDown', ()=>{ const val = parseInt(rDisp.textContent)||cur.rounds; rDisp.textContent = val <= 1 ? 1 : val - 1; });
+            addClick('defaults-save', ()=>{
+                const d = { players: parseInt(pDisp.textContent)||3, legs: parseInt(lDisp.textContent)||1, rounds: parseInt(rDisp.textContent)||1 };
+                localStorage.setItem('nevdarts:defaults', JSON.stringify(d));
+                tournamentData.playerCount = d.players;
+                tournamentData.scoreFormat = d.legs;
+                tournamentData.gamesPerPlayer = d.rounds;
+                showNotification('Defaults saved', 'success');
+            });
+            addClick('defaults-reset', ()=>{
+                const d = { players: 3, legs: 1, rounds: 1 };
+                localStorage.setItem('nevdarts:defaults', JSON.stringify(d));
+                pDisp.textContent = d.players; lDisp.textContent = d.legs; rDisp.textContent = d.rounds;
+                tournamentData.playerCount = d.players;
+                tournamentData.scoreFormat = d.legs;
+                tournamentData.gamesPerPlayer = d.rounds;
+                showNotification('Defaults reset', 'info');
+            });
         })();
 
         // Override Player Names nav for new flow
@@ -3249,10 +3376,11 @@
             const port = (window.location.port || '').trim();
             const isLocal = host === '127.0.0.1' || host === 'localhost';
             const portNum = parseInt(port, 10);
-            if (isLocal && !isNaN(portNum) && portNum >= 8000 && portNum <= 8010) {
+            const okRange = !isNaN(portNum) && ((portNum >= 8000 && portNum <= 18100));
+            if (isLocal && okRange) {
                 statusEl.textContent = `Preview status: running locally at ${origin}`;
+                if (card) card.style.display = '';
             } else {
-                // Hide server card entirely on non-local origins (e.g., GitHub Pages)
                 if (card) card.style.display = 'none';
             }
             if (copyCmd) {
